@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Wassally</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Username or Email </string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login </string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="new_to_wassaly">New to Wassally?</string>
+    <string name="other_sign_in_methods">or Sign in using </string>
+    <string name="forget_passowrd">forgot passowrd?</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!--Strings related to sign up -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="number">Phone Number</string>
+    <string name="governate">Governate</string>
+    <string name="city">City</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="privacy_note">By signing up you are agree to our Terms and Privacy policy</string>
+
+
+</resources>
