@@ -2,6 +2,7 @@ package com.android.wassally.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 /**
  * this is the super class of user model, contains the main common fields
  * **/
