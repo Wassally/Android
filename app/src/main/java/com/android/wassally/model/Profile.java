@@ -8,7 +8,7 @@ public class Profile extends User {
 
     public Profile(String email, String username, String firstName, String lastName,
                    boolean isCaptain, boolean isClient, String governate,
-                   String city, Integer phoneNumber, String[] captain, String image, int id) {
+                   String city, String phoneNumber, String[] captain, String image, int id) {
         super(email, username, firstName, lastName, isCaptain, isClient, governate, city, phoneNumber, captain, image);
         this.id = id;
     }

@@ -9,14 +9,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.wassally.R;
+import com.android.wassally.model.Login;
+import com.android.wassally.networkUtils.UserClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEmailView;
     private EditText mPasswordView;
     private Button mLoginButton;
     private TextView mSignUpView;
+    private TextView mLoginErrorMessageTextView;
 
     private ProgressDialog progressDialog;
 
@@ -29,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView = findViewById(R.id.password);
         mLoginButton = findViewById(R.id.email_sign_in_button);
         mSignUpView = findViewById(R.id.tv_sign_up);
+        progressDialog = new ProgressDialog(this);
+        mLoginErrorMessageTextView = findViewById(R.id.tv_login_error_message);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +56,39 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sendLoginRequest(Login login){
+        // create retrofit instance
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://mahmoudzeyada.pythonanywhere.com/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit =builder.build();
+        //get client and call object for the request
+        UserClient client = retrofit.create(UserClient.class);
+        Call<Login> loginCall = client.signIn(login);
+        loginCall.enqueue(new Callback<Login>() {
+            @Override
+            public void onResponse(Call<Login> call, Response<Login> response) {
+                progressDialog.cancel();
+                Toast.makeText(LoginActivity.this,"successful login, token is : "
+                        +response.body().getToken(),Toast.LENGTH_SHORT).show();
+                // start home activity
+                Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
+                startActivity(loadHome);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Login> call, Throwable t) {
+
+                progressDialog.cancel();
+                Toast.makeText(LoginActivity.this,"Login Failed ",Toast.LENGTH_SHORT).show();
+                mLoginErrorMessageTextView.setVisibility(View.VISIBLE);
+
+            }
+        });
+
     }
 
     /**
@@ -82,10 +127,6 @@ public class LoginActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
         }
 
         if (cancel) {
@@ -93,16 +134,14 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
-            startActivity(loadHome);
-            finish();
+            progressDialog.setMessage("Signing in ..");
+            progressDialog.show();
+
+            Login login = new Login(email,password);
+            sendLoginRequest(login);
+
         }
 
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {

@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String lastName ;
     private String email ;
     private String password;
-    private Integer phoneNumber;
+    private String phoneNumber;
     private String governate;
     private String username;
     private String city;
@@ -121,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
         lastName = getText(mLastNameEt);
         email = getText(mEmailEt);
         password = getText(mPasswordEt);
-        phoneNumber = Integer.getInteger(getText(mPhoneNumberEt));
+        phoneNumber = (getText(mPhoneNumberEt));
         username = getText(mUserName);
         governate = getText(mGovernateEt);
         city = getText(mCityEt);
@@ -177,7 +177,7 @@ public class SignUpActivity extends AppCompatActivity {
             progressDialog.show();
 
             NewAccount newAccount = new NewAccount(email,username,firstName,lastName,false,
-                    true,governate,city,phoneNumber,null,null,password,password);
+                    true,governate,city,phoneNumber,null,null,password);
             sendSignUpNetworkRequest(newAccount);
         }
 

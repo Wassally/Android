@@ -25,7 +25,7 @@ public class User {
     @SerializedName("city")
     private String city;
     @SerializedName ("phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
     @SerializedName("captain")
     @Expose(serialize = false, deserialize = false)
     private String [] captain;
@@ -37,7 +37,7 @@ public class User {
 
     public User(String email, String username, String firstName, String lastName,
                 boolean isCaptain, boolean isClient, String governate, String city,
-                Integer phoneNumber, String[] captain, String image) {
+                String phoneNumber, String[] captain, String image) {
         this.email = email;
         this.username = username;
         this.firstName = firstName;
@@ -85,7 +85,7 @@ public class User {
         this.city = city;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -132,7 +132,7 @@ public class User {
         return city;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
