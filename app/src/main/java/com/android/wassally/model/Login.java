@@ -17,7 +17,7 @@ public class Login {
     private String password;
 
     //receive token and user id
-    @SerializedName("token")
+    @SerializedName("auth_token")
     @Expose(serialize = false)
     private String token;
     @SerializedName("user_id")

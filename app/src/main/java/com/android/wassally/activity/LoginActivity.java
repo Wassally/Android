@@ -2,6 +2,9 @@ package com.android.wassally.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -69,10 +72,18 @@ public class LoginActivity extends AppCompatActivity {
         Call<Login> loginCall = client.signIn(login);
         loginCall.enqueue(new Callback<Login>() {
             @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
+            public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
                 progressDialog.cancel();
-                Toast.makeText(LoginActivity.this,"successful login, token is : "
-                        +response.body().getToken(),Toast.LENGTH_SHORT).show();
+                assert response.body() != null;
+
+                String token = response.body().getToken();
+                //save this token to sharedPreferences in order not to login every time user lunch the app
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                preferences.edit().putString("auth_token",token).apply();
+
+                Toast.makeText(LoginActivity.this,"successful login",Toast.LENGTH_SHORT).show();
+
+
                 // start home activity
                 Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
                 startActivity(loadHome);

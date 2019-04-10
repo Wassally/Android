@@ -7,14 +7,14 @@
     tools:context=".activity.ClientHomeActivity">
 
     <TextView
+        android:id="@+id/tv_clientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:textSize="40dp"
-        android:layout_gravity="center"
-        android:text="يامرحب بأول زبون "
+        android:textSize="25dp"
         android:gravity="center"
+        tools:text="Ahmed Mohamed"
         />
 
 </LinearLayout>

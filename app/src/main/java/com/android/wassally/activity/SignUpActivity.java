@@ -2,6 +2,8 @@ package com.android.wassally.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -84,8 +86,16 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 progressDialog.cancel();
                 assert response.body() != null;
-                Toast.makeText(SignUpActivity.this,"yeah! UserId: "+response.body().getId(),Toast.LENGTH_SHORT).show();
+
+                String token = response.body().getToken();
+                //save this token to sharedPreferences in order not to login every time user lunch the app
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
+                preferences.edit().putString("auth_token",token).apply();
+
+                Toast.makeText(SignUpActivity.this,"Successful sign Up",Toast.LENGTH_SHORT).show();
                 Intent homeIntent = new Intent(SignUpActivity.this,ClientHomeActivity.class);
+                String fullName = response.body().getFirstName()+" "+response.body().getLastName();
+                homeIntent.putExtra("full_name",fullName);
                 startActivity(homeIntent);
                 finish();
             }
