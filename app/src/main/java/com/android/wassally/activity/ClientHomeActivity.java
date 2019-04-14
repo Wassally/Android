@@ -1,6 +1,7 @@
 package com.android.wassally.activity;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,14 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 import com.android.wassally.R;
 import com.android.wassally.fragment.FavoriteFragment;
 import com.android.wassally.fragment.HistoryFragment;
+import com.android.wassally.fragment.HomeFragment;
+import com.android.wassally.fragment.ProfileFragment;
 
 public class ClientHomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,
+                   BottomNavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawer;
 
@@ -39,6 +42,14 @@ public class ClientHomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        if(savedInstanceState==null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        }
 
     }
 
@@ -64,6 +75,14 @@ public class ClientHomeActivity extends AppCompatActivity
             case R.id.nav_favorite:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FavoriteFragment()).commit();
+                break;
+            case R.id.bottom_nav_home :
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HomeFragment()).commit();
+                break;
+            case R.id.bottom_nav_profile :
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
                 break;
         }
 
