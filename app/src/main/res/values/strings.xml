@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Wassally</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login activity -->
     <string name="prompt_email">Username or Email </string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login </string>
@@ -14,12 +14,9 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="login_error_message">Incorrect username or password </string>
 
-    <!--Strings related to sign up -->
+    <!--Strings related to sign up activity-->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
@@ -38,5 +35,16 @@
     <string name="error_missing_username">choose a unique username </string>
     <string name="already_existing_username">this username already existed</string>
 
+
+    // navigation drawer
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Ahmed Mohamed</string>
+    <string name="nav_header_subtitle">Client</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
