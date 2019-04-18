@@ -36,7 +36,7 @@
     <string name="already_existing_username">this username already existed</string>
 
 
-    // navigation drawer
+    <!--navigation drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Ahmed Mohamed</string>
@@ -44,7 +44,15 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+     <!--new order activity strings -->
+    <string name="send_to">Send to</string>
+    <string name="location">Destination</string>
+    <string name="recipient_information">Recipient Information</string>
+    <string name="package_information">Package Information</string>
+    <string name="piking_location">Picking Location</string>
+    <string name="package_weight">Package Weight</string>
+    <string name="package_cost">Offer</string>
+    <string name="duration">Maximum Days</string>
+    <string name="note">Note (Optional)</string>
 
 </resources>

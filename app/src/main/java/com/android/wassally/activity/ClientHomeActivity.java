@@ -1,5 +1,6 @@
 package com.android.wassally.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -22,7 +23,7 @@ public class ClientHomeActivity extends AppCompatActivity
                    BottomNavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawer;
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class ClientHomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         if(savedInstanceState==null){
@@ -84,9 +85,22 @@ public class ClientHomeActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
+            case R.id.bottom_nav_newOrder:
+                displayNewOrderActivity();
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void displayNewOrderActivity(){
+        Intent newOrderIntent = new Intent(this,NewOrderActivity.class);
+        startActivity(newOrderIntent);
+        overridePendingTransition( R.anim.slide_in_up, R.anim.splash_fade_out );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home);
     }
 }
