@@ -3,16 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".fragment.WaitingFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Waiting packages"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:gravity="center"
-        />
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/rv_pp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+</android.support.v7.widget.RecyclerView>
 </FrameLayout>

@@ -32,8 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:itemIconTint="@color/colorAccent"
+            app:itemTextColor="@color/colorPrimary"
             android:theme="@style/AppTheme.AppBarOverlay"
-            app:itemBackground="@android:color/darker_gray"
+            app:elevation="9dp"
+            android:background="@android:color/white"
             app:menu="@menu/bottom_nav_menu">
 
         </android.support.design.widget.BottomNavigationView>
