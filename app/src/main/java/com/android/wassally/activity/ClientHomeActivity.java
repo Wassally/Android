@@ -1,6 +1,8 @@
 package com.android.wassally.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.wassally.R;
 import com.android.wassally.fragment.FavoriteFragment;
@@ -21,6 +25,7 @@ import com.android.wassally.fragment.ProfileFragment;
 public class ClientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,
                    BottomNavigationView.OnNavigationItemSelectedListener{
+    private static final String AUTH_TOKEN ="auth_token";
 
     private DrawerLayout drawer;
     private BottomNavigationView bottomNavigationView;
@@ -87,6 +92,9 @@ public class ClientHomeActivity extends AppCompatActivity
                 break;
             case R.id.bottom_nav_newOrder:
                 displayNewOrderActivity();
+                break;
+            case R.id.nav_logout:
+                logOut();
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -96,6 +104,15 @@ public class ClientHomeActivity extends AppCompatActivity
         Intent newOrderIntent = new Intent(this,NewOrderActivity.class);
         startActivity(newOrderIntent);
         overridePendingTransition( R.anim.slide_in_up, R.anim.splash_fade_out );
+    }
+
+    private void logOut(){
+        Intent intent = new Intent(ClientHomeActivity.this,LoginActivity.class);
+        startActivity(intent);
+        //clear token and finish activity
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
+        preferences.edit().putString(AUTH_TOKEN,"").apply();
+        finish();
     }
 
     @Override

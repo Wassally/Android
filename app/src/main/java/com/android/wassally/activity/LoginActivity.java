@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    private static final String AUTH_TOKEN ="auth_token";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,20 +75,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
                 progressDialog.cancel();
-                assert response.body() != null;
 
-                String token = response.body().getToken();
-                //save this token to sharedPreferences in order not to login every time user lunch the app
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                preferences.edit().putString("auth_token",token).apply();
+                if (response.body()!=null) {
+                    String token = response.body().getToken();
+                    //save this token to sharedPreferences in order not to login every time when user lunch the app
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    preferences.edit().putString(AUTH_TOKEN, token).apply();
 
-                Toast.makeText(LoginActivity.this,"successful login",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "successful login", Toast.LENGTH_SHORT).show();
 
 
-                // start home activity
-                Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
-                startActivity(loadHome);
-                finish();
+                    // start home activity
+                    Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
+                    startActivity(loadHome);
+                    finish();
+                }else {
+                    mLoginErrorMessageTextView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -95,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressDialog.cancel();
                 Toast.makeText(LoginActivity.this,"Login Failed ",Toast.LENGTH_SHORT).show();
-                mLoginErrorMessageTextView.setVisibility(View.VISIBLE);
 
             }
         });
@@ -156,7 +159,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 }

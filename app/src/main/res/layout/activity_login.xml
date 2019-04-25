@@ -94,7 +94,7 @@
         android:textAllCaps="false"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="@color/colorErrorMessage"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
     <android.support.v7.widget.CardView

@@ -27,7 +27,7 @@ public class NewOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
         setTitle("New Order");
-
+ /*
         mToPersonEditText =findViewById(R.id.recipient_name_et);
         mFromPlaceEditText = findViewById(R.id.picking_location_et);
         mToPlaceEditText = findViewById(R.id.recipient_location_et);
@@ -77,7 +77,7 @@ public class NewOrderActivity extends AppCompatActivity {
             Toast.makeText(this,"successfully created new order ",Toast.LENGTH_SHORT).show();
 
         }
-
+*/
     }
 
 }

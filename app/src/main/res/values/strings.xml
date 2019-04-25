@@ -27,14 +27,12 @@
     <string name="city">City</string>
     <string name="sign_up">Sign Up</string>
     <string name="privacy_note">By signing up you are agree to our Terms and Privacy policy</string>
-
     <string name="error_missing_first_name">enter your first name</string>
     <string name="error_missing_last_name">enter your last name</string>
     <string name="error_missing_email">enter a valid email address</string>
     <string name="error_missing_password">password is required </string>
     <string name="error_missing_username">choose a unique username </string>
     <string name="already_existing_username">this username already existed</string>
-
 
     <!--navigation drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -52,7 +50,20 @@
     <string name="piking_location">Picking Location</string>
     <string name="package_weight">Package Weight</string>
     <string name="package_cost">Offer</string>
-    <string name="duration">Maximum Days</string>
+    <string name="duration">I need it on </string>
     <string name="note">Note (Optional)</string>
+    <string name="label_from">Shipped From</string>
+    <string name="label_to">Shipped To</string>
+    <string name="extra_info">Extra Info</string>
+    <string name="sender_address">Sender Address</string>
+    <string name="sender_phone">Sender Phone Number</string>
+    <string name="receiver_address">Receiver Address</string>
+    <string name="receiver_name">Receiver Name</string>
+    <string name="receiver_phone_number">Receiver Phone Number</string>
+    <string name="transportation">Transportation</string>
+    <string name="submit">Submit Order</string>
+    <string name="shipped_by">Shipped By</string>
+    <string name="shipped_by_chosen_captain">Chosen Captain</string>
+    <string name="shipped_by_hint">Coming soon : you will be able to choose to deliver your package by another app user (the captain)</string>
 
 </resources>
