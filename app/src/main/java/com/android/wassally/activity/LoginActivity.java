@@ -78,9 +78,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.body()!=null) {
                     String token = response.body().getToken();
+                    String name = response.body().getName();
                     //save this token to sharedPreferences in order not to login every time when user lunch the app
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     preferences.edit().putString(AUTH_TOKEN, token).apply();
+//                    @// TODO: 4/29/2019 get the user full name and save it in sharedPreferences instead of username
+                    preferences.edit().putString("name", name).apply();
 
                     Toast.makeText(LoginActivity.this, "successful login", Toast.LENGTH_SHORT).show();
 

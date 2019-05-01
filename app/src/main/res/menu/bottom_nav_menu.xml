@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/bottom_nav_home"
-        android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:id="@+id/bottom_nav_orders"
+        android:icon="@drawable/my_orders"
+        android:title="My Orders" />
     <item
         android:id="@+id/bottom_nav_newOrder"
         android:icon="@drawable/ic_add_circle"

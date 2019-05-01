@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_container"
     android:layout_marginTop="?attr/actionBarSize"
+    android:layout_below="@+id/toolbar"
+    android:layout_above="@+id/nav_boarder"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.ClientHomeActivity"
     tools:showIn="@layout/app_bar_main">

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.HomeFragment">
+    android:layout_above="@+id/nav_boarder"
+    android:layout_below="@+id/toolbar"
+    tools:context=".fragment.MyOrdersFragment">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabBackground="@color/colorPrimary"
-            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorColor="@android:color/white"
             app:tabMode="fixed" />
 
     </android.support.design.widget.AppBarLayout>

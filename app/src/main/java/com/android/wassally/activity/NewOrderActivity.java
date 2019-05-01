@@ -26,7 +26,6 @@ public class NewOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
-        setTitle("New Order");
  /*
         mToPersonEditText =findViewById(R.id.recipient_name_et);
         mFromPlaceEditText = findViewById(R.id.picking_location_et);

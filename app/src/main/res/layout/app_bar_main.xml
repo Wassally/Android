@@ -25,17 +25,23 @@
         </android.support.design.widget.AppBarLayout>
 
         <include layout="@layout/content_main" />
+        <View
+            android:id="@+id/nav_boarder"
+            android:layout_width="match_parent"
+            android:layout_height=".3dp"
+            android:layout_above="@+id/bottom_nav"
+            android:background="@android:color/darker_gray"
+            >
+
+        </View>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:itemIconTint="@color/colorAccent"
-            app:itemTextColor="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="9dp"
-            android:background="@android:color/white"
+            app:elevation="6dp"
+            android:background="?android:attr/windowBackground"
             app:menu="@menu/bottom_nav_menu">
 
         </android.support.design.widget.BottomNavigationView>

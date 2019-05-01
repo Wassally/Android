@@ -65,5 +65,6 @@
     <string name="shipped_by">Shipped By</string>
     <string name="shipped_by_chosen_captain">Chosen Captain</string>
     <string name="shipped_by_hint">Coming soon : you will be able to choose to deliver your package by another app user (the captain)</string>
+    <string name="new_order">New Order</string>
 
 </resources>

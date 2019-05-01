@@ -25,11 +25,17 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.ClientHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"></activity>
         <activity
             android:name=".activity.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.NewOrderActivity"></activity>
+        <activity android:name=".activity.NewOrderActivity"
+            android:label="@string/new_order"
+            android:parentActivityName=".activity.ClientHomeActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ClientHomeActivity"/>
+        </activity>
     </application>
 
 </manifest>

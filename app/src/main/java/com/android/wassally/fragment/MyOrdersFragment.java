@@ -16,9 +16,9 @@ import com.android.wassally.adapter.ViewPagerAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class MyOrdersFragment extends Fragment {
 
-    public HomeFragment() {
+    public MyOrdersFragment() {
         // Required empty public constructor
     }
 
@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_my_orders, container, false);
 
         ViewPager viewPager = rootView.findViewById(R.id.view_pager);
         viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));

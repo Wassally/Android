@@ -4,9 +4,6 @@ public class Order {
     private int id;
     private int ownerId;
     private int requestNumber;
-
-
-
     private String toPerson;
     private String toPlace;
     private String fromPlace;
