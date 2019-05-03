@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_above="@+id/nav_boarder"
-    android:layout_below="@+id/toolbar"
     tools:context=".fragment.MyOrdersFragment">
 
     <android.support.design.widget.AppBarLayout
