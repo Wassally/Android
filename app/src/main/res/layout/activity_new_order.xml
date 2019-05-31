@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".activity.NewOrderActivity">
 
-
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -82,6 +81,7 @@
                         android:paddingBottom="10dp">
 
                         <EditText
+                            android:id="@+id/sender_address_et"
                             style="@style/singleLineEditText"
                             android:hint="@string/sender_address" />
                     </android.support.design.widget.TextInputLayout>
@@ -101,6 +101,7 @@
                     android:paddingBottom="10dp">
 
                     <EditText
+                        android:id="@+id/sender_phone_number_et"
                         style="@style/singleLineEditText"
                         android:hint="@string/sender_phone"
                         android:inputType="number" />
@@ -127,6 +128,7 @@
                         android:layout_weight="1">
 
                         <EditText
+                            android:id="@+id/receiver_governate_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/governate"
@@ -142,6 +144,7 @@
                         android:layout_weight="1">
 
                         <EditText
+                            android:id="@+id/receiver_city_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/city"
@@ -163,6 +166,7 @@
                         android:paddingBottom="10dp">
 
                         <EditText
+                            android:id="@+id/receiver_address_et"
                             style="@style/singleLineEditText"
                             android:hint="@string/receiver_address" />
                     </android.support.design.widget.TextInputLayout>
@@ -182,6 +186,7 @@
                     android:paddingBottom="10dp">
 
                     <EditText
+                        android:id="@+id/receiver_name_et"
                         style="@style/singleLineEditText"
                         android:hint="@string/receiver_name" />
 
@@ -193,9 +198,10 @@
                     android:paddingBottom="10dp">
 
                     <EditText
+                        android:id="@+id/receiver_phone_number_et"
                         style="@style/singleLineEditText"
                         android:hint="@string/receiver_phone_number"
-                        android:inputType="number" />
+                        android:inputType="phone" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -216,8 +222,10 @@
                         android:paddingBottom="10dp">
 
                         <EditText
+                            android:id="@+id/duration_et"
                             style="@style/singleLineEditText"
-                            android:hint="@string/duration" />
+                            android:hint="@string/duration"
+                            android:inputType="number" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageView
@@ -235,6 +243,7 @@
                     android:paddingBottom="10dp">
 
                     <EditText
+                        android:id="@+id/transportation_et"
                         style="@style/singleLineEditText"
                         android:hint="@string/transportation" />
 
@@ -268,7 +277,7 @@
                         android:layout_weight="1">
 
                         <EditText
-                            android:id="@+id/package_cost_et"
+                            android:id="@+id/package_offer_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/package_cost"
@@ -277,9 +286,7 @@
                             android:singleLine="true" />
 
                     </android.support.design.widget.TextInputLayout>
-
                 </LinearLayout>
-
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -353,9 +360,7 @@
                         android:textColor="@color/colorAccent" />
 
                 </LinearLayout>
-
             </android.support.v7.widget.CardView>
-
         </LinearLayout>
     </ScrollView>
 
@@ -365,9 +370,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/colorHeaderPendingPackage"
+        android:background="@color/colorPrimaryDark"
         android:text="@string/submit"
-        android:textStyle="bold"
         android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
 </RelativeLayout>

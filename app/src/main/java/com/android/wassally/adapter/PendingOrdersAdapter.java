@@ -1,6 +1,5 @@
 package com.android.wassally.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,14 +31,14 @@ public class PendingOrdersAdapter extends RecyclerView.Adapter<PendingOrdersAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView requestNumber;
-        private TextView toPerson;
-        private TextView toPlace;
+        private TextView receiverName;
+        private TextView toAddress;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            requestNumber = itemView.findViewById(R.id.tv_pp_requests_number);
-            toPerson = itemView.findViewById(R.id.tv_pp_toPerson_display);
-            toPlace = itemView.findViewById(R.id.tv_pp_location_display);
+           // requestNumber = itemView.findViewById(R.id.tv_pp_requests_number);
+            receiverName = itemView.findViewById(R.id.tv_pp_toPerson_display);
+            toAddress = itemView.findViewById(R.id.tv_pp_location_display);
 
            // itemView.setOnClickListener(this);
 
@@ -68,13 +67,17 @@ public class PendingOrdersAdapter extends RecyclerView.Adapter<PendingOrdersAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        Order order = mOrders.get(position);
-        TextView requestNumberTextView = holder.requestNumber;
-        TextView toPersonTextView = holder.toPerson;
-        TextView toPlaceTextView = holder.toPlace;
 
-        requestNumberTextView.setText(String.valueOf(order.getRequestNumber()));
-        toPersonTextView.setText(order.getToPerson());
-        toPlaceTextView.setText(order.getToPlace());
+        //will be implemented in the second release
+        //TextView requestNumberTextView = holder.requestNumber;
+        //requestNumberTextView.setText(String.valueOf(order.getRequestNumber()));
+
+        TextView receiverNameTextView = holder.receiverName;
+        TextView toAddressTextView = holder.toAddress;
+
+        receiverNameTextView.setText(order.getReceiverName());
+        String toAddressString = order.getToGovernate()+", "+order.getToCity();
+        toAddressTextView.setText(toAddressString);
 
     }
 

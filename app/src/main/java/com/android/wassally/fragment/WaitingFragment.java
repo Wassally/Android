@@ -44,30 +44,54 @@ public class WaitingFragment extends Fragment {
 
 
         List<Order> orders = new ArrayList<>();
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
-        orders.add(new Order(5,"Ahmed El Qenawy","Mahala",
-                "Mansoura","ok",150,50,3));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
+        orders.add(new Order("Dumyat","Dumyat El Jadidah","Mubarak 70",
+                "021543356441", "Dakahlia","Mansoura",
+                "Hay El Gam3a","Essam Mosbah", "01019965971",
+                "please take care",5,15,"wassally"));
 
         adapter.setOrdersData(orders);
 

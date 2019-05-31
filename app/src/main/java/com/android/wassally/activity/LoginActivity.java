@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private static final String AUTH_TOKEN ="auth_token";
+    private static final String BASE_URL = "https://wassally.herokuapp.com/api/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +67,9 @@ public class LoginActivity extends AppCompatActivity {
     private void sendLoginRequest(Login login){
         // create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://mahmoudzeyada.pythonanywhere.com/api/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit =builder.build();
+        Retrofit retrofit = builder.build();
         //get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);
         Call<Login> loginCall = client.signIn(login);
@@ -77,8 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.cancel();
 
                 if (response.body()!=null) {
+
                     String token = response.body().getToken();
                     String name = response.body().getName();
+
                     //save this token to sharedPreferences in order not to login every time when user lunch the app
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     preferences.edit().putString(AUTH_TOKEN, token).apply();
@@ -87,12 +91,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(LoginActivity.this, "successful login", Toast.LENGTH_SHORT).show();
 
-
                     // start home activity
                     Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
                     startActivity(loadHome);
                     finish();
                 }else {
+                    //password or username is incorrect
                     mLoginErrorMessageTextView.setVisibility(View.VISIBLE);
                 }
             }
@@ -133,11 +137,6 @@ public class LoginActivity extends AppCompatActivity {
             focusView = mPasswordView;
             cancel = true;
         }
-        if(!TextUtils.isEmpty(password)&&!isPasswordValid(password)){
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -158,10 +157,5 @@ public class LoginActivity extends AppCompatActivity {
             sendLoginRequest(login);
 
         }
-
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
     }
 }

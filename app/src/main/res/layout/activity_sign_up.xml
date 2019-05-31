@@ -64,18 +64,6 @@
         <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
 
             <EditText
-                android:id="@+id/sign_up_password_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
-
-            <EditText
                 android:id="@+id/sign_up_username_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,37 +77,25 @@
         <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
 
             <EditText
+                android:id="@+id/sign_up_password_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
+
+            <EditText
                 android:id="@+id/sign_up_phone_number_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/number"
                 android:inputType="phone"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
-
-            <EditText
-                android:id="@+id/sign_up_governate_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/governate"
-                android:inputType="textCapWords"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutSignUp">
-
-            <EditText
-                android:id="@+id/sign_up_city_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/city"
-                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true" />
 

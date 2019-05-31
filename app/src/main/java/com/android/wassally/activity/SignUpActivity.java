@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.wassally.R;
-import com.android.wassally.model.NewAccount;
+import com.android.wassally.model.SignUP;
 import com.android.wassally.model.Profile;
 import com.android.wassally.networkUtils.UserClient;
 
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,21 +30,17 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mFirstNameEt;
     private EditText mLastNameEt;
     private EditText mEmailEt;
+    private EditText mUserNameEt;
     private EditText mPasswordEt;
     private EditText mPhoneNumberEt;
-    private EditText mGovernateEt;
-    private EditText mCityEt;
-    private EditText mUserName;
     private Button mSignUpButton;
 
     private String firstName ;
     private String lastName ;
     private String email ;
+    private String username;
     private String password;
     private String phoneNumber;
-    private String governate;
-    private String username;
-    private String city;
 
     private ProgressDialog progressDialog;
 
@@ -56,9 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailEt = findViewById(R.id.sign_up_email_et);
         mPasswordEt = findViewById(R.id.sign_up_password_et);
         mPhoneNumberEt = findViewById(R.id.sign_up_phone_number_et);
-        mGovernateEt = findViewById(R.id.sign_up_governate_et);
-        mUserName = findViewById(R.id.sign_up_username_et);
-        mCityEt = findViewById(R.id.sign_up_city_et);
+        mUserNameEt = findViewById(R.id.sign_up_username_et);
         mSignUpButton = findViewById(R.id.sign_up_button);
 
         progressDialog = new ProgressDialog(this);
@@ -72,32 +68,34 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void sendSignUpNetworkRequest(NewAccount newAccount){
+    private void sendSignUpNetworkRequest(SignUP signUP){
         //create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://mahmoudzeyada.pythonanywhere.com/api/")
+                .baseUrl("https://wassally.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         // get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);
-        Call<Profile> call = client.createAccount(newAccount);
+        Call<Profile> call = client.createAccount(signUP);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 progressDialog.cancel();
-                assert response.body() != null;
 
-                String token = response.body().getToken();
-                //save this token to sharedPreferences in order not to login every time user lunch the app
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
-                preferences.edit().putString("auth_token",token).apply();
+                if(response.body()!=null) {
 
-                Toast.makeText(SignUpActivity.this,"Successful sign Up",Toast.LENGTH_SHORT).show();
-                Intent homeIntent = new Intent(SignUpActivity.this,ClientHomeActivity.class);
-                String fullName = response.body().getFirstName()+" "+response.body().getLastName();
-                homeIntent.putExtra("full_name",fullName);
-                startActivity(homeIntent);
-                finish();
+                    String token = response.body().getToken();
+                    //save this token to sharedPreferences in order not to login every time user lunch the app
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
+                    preferences.edit().putString("auth_token", token).apply();
+
+                    Toast.makeText(SignUpActivity.this, "Successful sign Up", Toast.LENGTH_SHORT).show();
+                    Intent homeIntent = new Intent(SignUpActivity.this, ClientHomeActivity.class);
+                    String fullName = response.body().getFirstName() + " " + response.body().getLastName();
+                    homeIntent.putExtra("full_name", fullName);
+                    startActivity(homeIntent);
+                    finish();
+                }
             }
 
             @Override
@@ -123,7 +121,8 @@ public class SignUpActivity extends AppCompatActivity {
         mLastNameEt.setError(null);
         mEmailEt.setError(null);
         mPasswordEt.setError(null);
-        mUserName.setError(null);
+        mUserNameEt.setError(null);
+        mPhoneNumberEt.setError(null);
 
 
         // Store values at the time of the sign up attempt.
@@ -132,17 +131,22 @@ public class SignUpActivity extends AppCompatActivity {
         email = getText(mEmailEt);
         password = getText(mPasswordEt);
         phoneNumber = (getText(mPhoneNumberEt));
-        username = getText(mUserName);
-        governate = getText(mGovernateEt);
-        city = getText(mCityEt);
+        username = getText(mUserNameEt);
 
         boolean cancel = false;
         View focusView = null;
 
+        //check for phoneNumber
+        if(TextUtils.isEmpty(phoneNumber)) {
+            mPhoneNumberEt.setError(getString(R.string.error_field_required));
+            focusView = mPhoneNumberEt;
+            cancel = true;
+        }
+
         // check for username
         if(TextUtils.isEmpty(username)){
-            mUserName.setError(getString(R.string.error_missing_username));
-            focusView = mUserName;
+            mUserNameEt.setError(getString(R.string.error_missing_username));
+            focusView = mUserNameEt;
             cancel = true;
         }
 
@@ -186,9 +190,9 @@ public class SignUpActivity extends AppCompatActivity {
             progressDialog.setMessage("Signing Up ..");
             progressDialog.show();
 
-            NewAccount newAccount = new NewAccount(email,username,firstName,lastName,false,
-                    true,governate,city,phoneNumber,null,null,password);
-            sendSignUpNetworkRequest(newAccount);
+            SignUP signUP = new SignUP(firstName,lastName,email,username,password,
+                    phoneNumber,true,false);
+            sendSignUpNetworkRequest(signUP);
         }
 
     }
@@ -201,12 +205,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 }
