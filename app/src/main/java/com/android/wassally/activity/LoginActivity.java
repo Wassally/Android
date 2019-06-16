@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.wassally.R;
+import com.android.wassally.databinding.ActivityLoginBinding;
 import com.android.wassally.model.Login;
 import com.android.wassally.networkUtils.UserClient;
 
@@ -25,12 +26,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText mEmailView;
-    private EditText mPasswordView;
-    private Button mLoginButton;
-    private TextView mSignUpView;
-    private TextView mLoginErrorMessageTextView;
 
+    private EditText mEmailEditText ;
+    private EditText mPasswordEditText ;
+    private TextView mLoginErrorMessageTextView;
     private ProgressDialog progressDialog;
 
     private static final String AUTH_TOKEN ="auth_token";
@@ -41,13 +40,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEmailView = findViewById(R.id.email);
-        mPasswordView = findViewById(R.id.password);
-        mLoginButton = findViewById(R.id.email_sign_in_button);
-        mSignUpView = findViewById(R.id.tv_sign_up);
-        progressDialog = new ProgressDialog(this);
+        mEmailEditText = findViewById(R.id.login_email_et);
+        mPasswordEditText = findViewById(R.id.login_password_et);
+        TextView mSignUpTextView = findViewById(R.id.tv_sign_up);
         mLoginErrorMessageTextView = findViewById(R.id.tv_login_error_message);
+        Button mLoginButton = findViewById(R.id.login_button);
 
+        progressDialog = new ProgressDialog(this);
+
+
+        //when login button clicked start checking fields by calling attemptLogin method
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mSignUpView.setOnClickListener(new View.OnClickListener() {
+        // if this is a new user he would click signUp -- so display signUp activity using explicit intent
+        mSignUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
@@ -64,15 +67,23 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * send login request to the server using retrofit
+     * @param login object consist of username or email and password
+     */
+
     private void sendLoginRequest(Login login){
+
         // create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
+
         //get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);
         Call<Login> loginCall = client.signIn(login);
+
         loginCall.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
@@ -121,27 +132,27 @@ public class LoginActivity extends AppCompatActivity {
     private void attemptLogin(){
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        mEmailEditText.setError(null);
+        mPasswordEditText.setError(null);
 
         // Store values at the time of the login attempt.
-        String email =mEmailView.getText().toString().trim();
-        String password = mPasswordView.getText().toString().trim();
+        String email =mEmailEditText.getText().toString().trim();
+        String password =mPasswordEditText.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
 
         //check for a valid password if the user entered one
         if (TextUtils.isEmpty(password)){
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+            mPasswordEditText.setError(getString(R.string.error_field_required));
+            focusView = mPasswordEditText;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            mEmailEditText.setError(getString(R.string.error_field_required));
+            focusView = mEmailEditText;
             cancel = true;
         }
 

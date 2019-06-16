@@ -17,6 +17,10 @@ import com.android.wassally.UserInputValidation;
 import com.android.wassally.model.Order;
 import com.android.wassally.networkUtils.UserClient;
 
+import java.util.ArrayList;
+
+import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
+import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +31,9 @@ public class NewOrderActivity extends AppCompatActivity {
 
     private static final String BASE_URL ="https://wassally.herokuapp.com/api/" ;
     private static final String AUTH_TOKEN = "auth_token";
+    SpinnerDialog spinnerDialog ;
+
+     ArrayList<String> governatesString = new ArrayList<>();
 
     private EditText mFromGovernate;
     private EditText mFromCity;
@@ -65,6 +72,21 @@ public class NewOrderActivity extends AppCompatActivity {
         mNote = findViewById(R.id.client_note_et);
         mSubmitOrder = findViewById(R.id.submit_new_order_button);
 
+        initItems();
+
+        mFromGovernate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGovernateSpinner(v);
+            }
+        });
+        mToGovernate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGovernateSpinner(v);
+            }
+        });
+
         progressDialog = new ProgressDialog(this);
 
         mSubmitOrder.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +95,31 @@ public class NewOrderActivity extends AppCompatActivity {
                 createNewOrder();
             }
         });
+    }
+
+    private void openGovernateSpinner(final View view) {
+
+        final EditText editText = (EditText)view;
+
+        spinnerDialog = new SpinnerDialog(this,governatesString,"Select governate");
+        spinnerDialog.showSpinerDialog();
+
+        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(String item, int i) {
+                editText.setText(item);
+            }
+        });
+
+
+    }
+
+    private void initItems() {
+        String [] items = getResources().getStringArray(R.array.egypt_governorates);
+        for (int i=0;i<items.length;i++){
+            governatesString.add(items[i]);
+        }
+
     }
 
     private void createNewOrder() {

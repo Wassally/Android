@@ -9,16 +9,15 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/colorPrimary"
+            android:background="@android:color/white"
             app:tabIndicatorHeight="3dp"
-            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorColor="@color/colorPrimary"
             app:tabMode="fixed" />
 
     </android.support.design.widget.AppBarLayout>
