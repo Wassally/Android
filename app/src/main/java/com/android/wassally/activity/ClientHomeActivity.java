@@ -2,10 +2,12 @@ package com.android.wassally.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,9 +24,12 @@ import com.android.wassally.fragment.FavoriteFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
 import com.android.wassally.fragment.ProfileFragment;
 
+import java.util.jar.Manifest;
+
 public class ClientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
+
     private static final String AUTH_TOKEN = "auth_token";
 
     private DrawerLayout drawer;
@@ -56,7 +61,6 @@ public class ClientHomeActivity extends AppCompatActivity
         populateNavHeaderData();
 
 
-
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
@@ -71,7 +75,6 @@ public class ClientHomeActivity extends AppCompatActivity
      * populate navigation drawer data which are client name and profile picture
      * now we are using shared preferences to get this data
      **/
-
     private void populateNavHeaderData() {
         TextView mClientNameTextView = mHeader.findViewById(R.id.header_client_name_tv);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
@@ -86,31 +89,13 @@ public class ClientHomeActivity extends AppCompatActivity
         });
     }
 
-    private void openProfile(){
+    private void openProfile() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ProfileFragment()).commit();
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_profile);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (!drawer.isDrawerOpen(GravityCompat.START) && bottomNavigationView.getSelectedItemId() == R.id.bottom_nav_orders) {
-            super.onBackPressed();
-        }
-
-        //if drawer is open when pressing back button just close the navigation drawer
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-
-        //home is the default fragment
-        if (bottomNavigationView.getSelectedItemId() != R.id.bottom_nav_orders) {
-            bottomNavigationView.setSelectedItemId(R.id.bottom_nav_orders);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new MyOrdersFragment()).commit();
-        }
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -146,9 +131,15 @@ public class ClientHomeActivity extends AppCompatActivity
 
 
     private void displayNewOrderActivity() {
-        Intent newOrderIntent = new Intent(this, NewOrderActivity.class);
-        startActivity(newOrderIntent);
-        overridePendingTransition(R.anim.slide_in_up, R.anim.splash_fade_out);
+        if (ContextCompat.checkSelfPermission(ClientHomeActivity.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //location permission is not granted , ask for user permission
+            startActivity(new Intent(ClientHomeActivity.this, PermissionActivity.class));
+
+        } else {
+            startActivity(new Intent(this, NewOrderActivity.class));
+            overridePendingTransition(R.anim.slide_in_up, R.anim.splash_fade_out);
+        }
     }
 
     /**
@@ -168,5 +159,24 @@ public class ClientHomeActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_orders);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!drawer.isDrawerOpen(GravityCompat.START) && bottomNavigationView.getSelectedItemId() == R.id.bottom_nav_orders) {
+            super.onBackPressed();
+        }
+
+        //if drawer is open when pressing back button just close the navigation drawer
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
+        //home is the default fragment
+        if (bottomNavigationView.getSelectedItemId() != R.id.bottom_nav_orders) {
+            bottomNavigationView.setSelectedItemId(R.id.bottom_nav_orders);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new MyOrdersFragment()).commit();
+        }
     }
 }

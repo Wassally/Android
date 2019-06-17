@@ -42,7 +42,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-     <!--new order activity strings -->
+    <!--new order activity strings -->
     <string name="send_to">Send to</string>
     <string name="location">Destination</string>
     <string name="recipient_information">Recipient Information</string>
@@ -67,4 +67,9 @@
     <string name="shipped_by_hint">Coming soon : you will be able to choose to deliver your package by another app user (the captain)</string>
     <string name="new_order">New Order</string>
 
+    <!--permission activity-->
+    <string name="location_permission">Location permission</string>
+    <string name="location_permission_headline">Wassally requires access to your location</string>
+    <string name="location_permission_body">Enable location for a more accurate delivery experience</string>
+    <string name="turn_on_location_services">Turn on location services</string>
 </resources>

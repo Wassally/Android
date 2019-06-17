@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.wassally.R;
-import com.android.wassally.databinding.ActivityLoginBinding;
 import com.android.wassally.model.Login;
 import com.android.wassally.networkUtils.UserClient;
 
