@@ -72,4 +72,8 @@
     <string name="location_permission_headline">Wassally requires access to your location</string>
     <string name="location_permission_body">Enable location for a more accurate delivery experience</string>
     <string name="turn_on_location_services">Turn on location services</string>
+    <string name="title_activity_new_order_with_map">NewOrderWithMapActivity</string>
+    <string name="service_not_available">service not available ..check network connection</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address_found">address found</string>
 </resources>

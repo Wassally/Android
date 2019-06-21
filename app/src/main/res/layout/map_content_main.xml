@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.NewOrderWithMapActivity"
+    tools:showIn="@layout/activity_new_order_with_map">
+
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </fragment>
+
+    <com.skyfishjy.library.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ripple_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rb_color="#2355d2"
+        app:rb_duration="2000"
+        app:rb_radius="14dp"
+        app:rb_rippleAmount="4"
+        app:rb_scale="6">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_pin"
+            android:translationY="-18dp" />
+    </com.skyfishjy.library.RippleBackground>
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
+        style="@style/MaterialSearchBarLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:elevation="5dp"
+        android:outlineProvider="bounds"
+        app:mt_hint="Search a place"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_navIconEnabled="true"
+        app:mt_placeholder="Search a place"
+        app:mt_speechMode="false" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="14dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="9dp"
+        app:contentPadding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_display_marker_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        tools:text="Rehab Mall 2, Cairo Governorate, Egypt"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@android:color/primary_text_light" />
+
+        <Button
+            android:id="@+id/submit_location_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:text="Confirm pickup"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

@@ -137,7 +137,7 @@ public class ClientHomeActivity extends AppCompatActivity
             startActivity(new Intent(ClientHomeActivity.this, PermissionActivity.class));
 
         } else {
-            startActivity(new Intent(this, NewOrderActivity.class));
+            startActivity(new Intent(this, NewOrderWithMapActivity.class));
             overridePendingTransition(R.anim.slide_in_up, R.anim.splash_fade_out);
         }
     }
