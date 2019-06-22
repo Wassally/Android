@@ -12,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/api_key" />
+
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -27,6 +27,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -39,21 +40,27 @@
             android:name=".activity.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.NewOrderActivity"
-            android:label="@string/new_order"
-            android:parentActivityName=".activity.ClientHomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ClientHomeActivity" />
-        </activity>
-        <activity
             android:name=".activity.PermissionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.NewOrderWithMapActivity"
-            android:label="@string/title_activity_new_order_with_map"></activity>
-        <service android:name=".networkUtils.services.FetchAddressIntentService"
-            android:exported="false"/>
+            android:label="@string/title_activity_new_order_with_map">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activity.CreatePackageActivity" />
+        </activity>
+
+        <service
+            android:name=".networkUtils.services.FetchAddressIntentService"
+            android:exported="false" />
+
+        <activity android:name=".activity.CreatePackageActivity"
+            android:label="@string/new_order">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ClientHomeActivity" />
+
+        </activity>
     </application>
 
 </manifest>

@@ -12,4 +12,14 @@ public final class Constants {
             ".LOCATION_lAT_EXTRA";
     public static final String LOCATION_LNG_EXTRA = PACKAGE_NAME +
             ".LOCATION_LNG_EXTRA";
+
+
+    public static final String LOCATION_REQUEST_KEY = PACKAGE_NAME+
+            ".LOCATION_REQUEST_KEY";
+    public static final int RESULT_OK = 5;
+    public static final int PICKUP_LOCATION_REQUEST = 1;
+    public static final int DESTINATION_LOCATION_REQUEST = 2;
+
+
+
 }

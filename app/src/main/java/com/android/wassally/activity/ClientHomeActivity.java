@@ -131,15 +131,9 @@ public class ClientHomeActivity extends AppCompatActivity
 
 
     private void displayNewOrderActivity() {
-        if (ContextCompat.checkSelfPermission(ClientHomeActivity.this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //location permission is not granted , ask for user permission
-            startActivity(new Intent(ClientHomeActivity.this, PermissionActivity.class));
-
-        } else {
-            startActivity(new Intent(this, NewOrderWithMapActivity.class));
+            startActivity(new Intent(this, CreatePackageActivity.class));
             overridePendingTransition(R.anim.slide_in_up, R.anim.splash_fade_out);
-        }
+
     }
 
     /**

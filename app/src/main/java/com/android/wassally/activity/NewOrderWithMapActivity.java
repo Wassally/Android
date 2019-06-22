@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,13 +83,15 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
     private Button subimtLocationButton;
     private RippleBackground rippleBg;
     private TextView mDisplayAddressTextView;
+    private ProgressBar mProgressBar;
+    ImageView mSmallPinIv;
 
-    private String currentMarkerFullAddress;
+    //variables
     private String addressOutput;
+    private int addressResultCode;
+    private boolean isSupportedArea;
 
     private final float DEFAULT_ZOOM = 17;
-
-    private AddressResultReceiver resultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,20 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         subimtLocationButton = findViewById(R.id.submit_location_button);
         rippleBg = findViewById(R.id.ripple_bg);
         mDisplayAddressTextView = findViewById(R.id.tv_display_marker_location);
+        mProgressBar = findViewById(R.id.progress_bar);
+        mSmallPinIv = findViewById(R.id.small_pin);
+
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(Constants.LOCATION_REQUEST_KEY)) {
+            int locationRequestCode = intent.getIntExtra(Constants.LOCATION_REQUEST_KEY, 1);
+            if (locationRequestCode == Constants.PICKUP_LOCATION_REQUEST) {
+                subimtLocationButton.setText("Confirm pickup");
+            } else {
+                subimtLocationButton.setText("Confirm destination");
+            }
+        }
+
 
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
@@ -253,6 +271,15 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         subimtLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (addressResultCode == Constants.FAILURE_RESULT || !isSupportedArea) {
+                    Toast.makeText(NewOrderWithMapActivity.this, "failed to select location please try again", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Intent data = new Intent();
+                    data.putExtra("address", addressOutput);
+                    setResult(Constants.RESULT_OK, data);
+                    finish();
+                }
 
             }
         });
@@ -330,11 +357,18 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                Log.i("mytag","changing address");
+                mSmallPinIv.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mDisplayAddressTextView.setVisibility(View.INVISIBLE);
+                Log.i("mytag", "changing address");
+//                ToDo : you can use retrofit for this network call instead of using services
+                //hint: services is just for doing background tasks when the app is closed no need to use services to update ui
+                //best way to do network calls and then update user ui is Retrofit .. consider it 
                 startIntentService();
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -396,7 +430,7 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
     protected void startIntentService() {
         //vars
         LatLng currentMarkerPosition = mMap.getCameraPosition().target;
-        resultReceiver = new AddressResultReceiver(new Handler());
+        AddressResultReceiver resultReceiver = new AddressResultReceiver(new Handler());
 
         Intent intent = new Intent(this, FetchAddressIntentService.class);
         intent.putExtra(Constants.RECEIVER, resultReceiver);
@@ -406,10 +440,22 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         startService(intent);
     }
 
-    private void updateUi(){
-        mDisplayAddressTextView.setText("");
+    private void updateUi() {
+        mDisplayAddressTextView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
         mMap.clear();
-        mDisplayAddressTextView.setText(addressOutput);
+        if (addressResultCode == Constants.SUCCESS_RESULT && !addressOutput.contains("Egypt")) {
+            mSmallPinIv.setVisibility(View.GONE);
+            isSupportedArea = false;
+            mDisplayAddressTextView.setText(getString(R.string.wassally_not_support_area));
+        } else if (addressResultCode == Constants.FAILURE_RESULT) {
+            mSmallPinIv.setVisibility(View.GONE);
+            mDisplayAddressTextView.setText(addressOutput);
+        } else {
+            mSmallPinIv.setVisibility(View.VISIBLE);
+            isSupportedArea = true;
+            mDisplayAddressTextView.setText(addressOutput);
+        }
     }
 
     class AddressResultReceiver extends ResultReceiver {
@@ -419,6 +465,8 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
 
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+            addressResultCode = resultCode;
 
             if (resultData == null) {
                 return;
@@ -433,10 +481,6 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
             updateUi();
 
         }
-    }
-
-    private void displayAddressOutput() {
-        mDisplayAddressTextView.setText(addressOutput);
     }
 }
 

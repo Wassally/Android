@@ -42,28 +42,25 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <!--new order activity strings -->
-    <string name="send_to">Send to</string>
-    <string name="location">Destination</string>
-    <string name="recipient_information">Recipient Information</string>
-    <string name="package_information">Package Information</string>
-    <string name="piking_location">Picking Location</string>
-    <string name="package_weight">Package Weight</string>
-    <string name="package_cost">Offer</string>
-    <string name="duration">I need it on </string>
-    <string name="note">Note (Optional)</string>
-    <string name="label_from">Shipped From</string>
-    <string name="label_to">Shipped To</string>
-    <string name="extra_info">Extra Info</string>
-    <string name="sender_address">Sender Address</string>
-    <string name="sender_phone">Sender Phone Number</string>
-    <string name="receiver_address">Receiver Address</string>
-    <string name="receiver_name">Receiver Name</string>
-    <string name="receiver_phone_number">Receiver Phone Number</string>
-    <string name="transportation">Transportation</string>
+    <!--new order-->
     <string name="submit">Submit Order</string>
     <string name="shipped_by">Shipped By</string>
     <string name="shipped_by_chosen_captain">Chosen Captain</string>
+    <string name="delivery_time">Delivery time</string>
+    <string name="enter_maximum_days">Enter maximum days</string>
+    <string name="enter_receiver_name">Enter receiver name </string>
+    <string name="enter_approximate_weight">Enter approximate weight</string>
+    <string name="wassally_not_support_area">Wassally does\'nt support this area</string>
+    <string name="receiver_name">Receiver name</string>
+    <string name="receiver_phone_number">Receiver phone number</string>
+    <string name="pickup_location">Pickup location</string>
+    <string name="choose_pickup_location">Select pickup location</string>
+    <string name="select_destination_location">Select destination location</string>
+    <string name="destination_location">Destination location</string>
+    <string name="sender_phone_number">Sender phone Number</string>
+    <string name="enter_receiver_phone_number">Enter receiver phone number</string>
+    <string name="enter_sender_phone_number">Enter sender phone number</string>
+    <string name="package_weight">Package weight</string>
     <string name="shipped_by_hint">Coming soon : you will be able to choose to deliver your package by another app user (the captain)</string>
     <string name="new_order">New Order</string>
 
@@ -72,8 +69,12 @@
     <string name="location_permission_headline">Wassally requires access to your location</string>
     <string name="location_permission_body">Enable location for a more accurate delivery experience</string>
     <string name="turn_on_location_services">Turn on location services</string>
+
+    <!--map activity-->
     <string name="title_activity_new_order_with_map">NewOrderWithMapActivity</string>
     <string name="service_not_available">service not available ..check network connection</string>
     <string name="no_address_found">No address found</string>
     <string name="address_found">address found</string>
+
+
 </resources>
