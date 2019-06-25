@@ -5,9 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Login {
 
-
-
-
     //sending only user name (or email) and password
     @SerializedName("username")
     @Expose(deserialize = false)

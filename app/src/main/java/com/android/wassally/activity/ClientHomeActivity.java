@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.fragment.CompletedFragment;
 import com.android.wassally.fragment.FavoriteFragment;
@@ -42,7 +43,6 @@ public class ClientHomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_home);
-        String clientName = getIntent().getStringExtra("full_name");
 
         //use our toolBar as the action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -78,8 +78,8 @@ public class ClientHomeActivity extends AppCompatActivity
     private void populateNavHeaderData() {
         TextView mClientNameTextView = mHeader.findViewById(R.id.header_client_name_tv);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
-        String name = preferences.getString("name", "");
-        mClientNameTextView.setText(name);
+        String fullName = preferences.getString(Constants.FULL_NAME, "");
+        mClientNameTextView.setText(fullName);
 
         mClientNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,8 +144,10 @@ public class ClientHomeActivity extends AppCompatActivity
         startActivity(intent);
         //clear token and finish activity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
+        preferences.getAll().clear();
         preferences.edit().putString(AUTH_TOKEN, "").apply();
-        preferences.edit().putString("name", "").apply();
+        preferences.edit().putString(Constants.FULL_NAME, "").apply();
+        preferences.edit().putInt(Constants.USER_ID,-1).apply();
         finish();
     }
 

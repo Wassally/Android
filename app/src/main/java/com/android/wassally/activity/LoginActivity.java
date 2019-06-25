@@ -1,5 +1,7 @@
 package com.android.wassally.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,12 +10,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.model.Login;
 import com.android.wassally.networkUtils.UserClient;
@@ -24,15 +29,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.android.wassally.Constants.AUTH_TOKEN;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailEditText ;
     private EditText mPasswordEditText ;
-    private TextView mLoginErrorMessageTextView;
-    private ProgressDialog progressDialog;
-
-    private static final String AUTH_TOKEN ="auth_token";
-    private static final String BASE_URL = "https://wassally.herokuapp.com/api/";
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailEditText = findViewById(R.id.login_email_et);
         mPasswordEditText = findViewById(R.id.login_password_et);
         TextView mSignUpTextView = findViewById(R.id.tv_sign_up);
-        mLoginErrorMessageTextView = findViewById(R.id.tv_login_error_message);
         Button mLoginButton = findViewById(R.id.login_button);
-
-        progressDialog = new ProgressDialog(this);
-
 
         //when login button clicked start checking fields by calling attemptLogin method
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -86,20 +85,21 @@ public class LoginActivity extends AppCompatActivity {
         loginCall.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
-                progressDialog.cancel();
+                dialog.dismiss();
 
                 if (response.body()!=null) {
 
                     String token = response.body().getToken();
-                    String name = response.body().getName();
+                    int userId = response.body().getId();
 
                     //save this token to sharedPreferences in order not to login every time when user lunch the app
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     preferences.edit().putString(AUTH_TOKEN, token).apply();
 //                    @// TODO: 4/29/2019 get the user full name and save it in sharedPreferences instead of username
-                    preferences.edit().putString("name", name).apply();
 
                     Toast.makeText(LoginActivity.this, "successful login", Toast.LENGTH_SHORT).show();
+                    preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
+                    preferences.edit().putInt(Constants.USER_ID,userId).apply();
 
                     // start home activity
                     Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
@@ -107,16 +107,14 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }else {
                     //password or username is incorrect
-                    mLoginErrorMessageTextView.setVisibility(View.VISIBLE);
+                    alertView();
                 }
             }
 
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
-
-                progressDialog.cancel();
+                dialog.dismiss();
                 Toast.makeText(LoginActivity.this,"Login Failed ",Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -160,12 +158,22 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            progressDialog.setMessage("Signing in ..");
-            progressDialog.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(R.layout.progress);
+            dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.show();
 
             Login login = new Login(email,password);
             sendLoginRequest(login);
-
         }
     }
+
+    private void alertView() {
+        android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        dialog.setMessage(getString(R.string.login_error_message))
+                .setNegativeButton("Ok",null)
+                .show();
+    }
+
 }

@@ -13,6 +13,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="loginTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="textInputStyle">
+        <item name="android:colorAccent">#ffff</item>
+        <item name="android:colorControlNormal">@color/loginColorAccent</item>
+        <item name="android:colorControlActivated">@color/loginColorAccent</item>
+        <item name="android:colorControlHighlight">@color/loginColorAccent</item>
+    </style>
+
+    <style name="AppTheme.TextFloatingLabelAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@android:color/secondary_text_dark</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

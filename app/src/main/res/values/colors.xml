@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ff3a1e</color>
-    <color name="colorPrimaryDark">#ce1a00</color>
+    <color name="colorPrimaryDark">#cc2e18</color>
     <color name="colorAccent">#ff3a1e</color>
 
-    <color name="colorErrorMessage">#071240</color>
+    <color name="loginColorAccent">#ffff</color>
+
+    <color name="colorErrorMessage">#ff0d00</color>
     <color name="colorHeaderPendingPackage">#2d41af</color>
     <color name="cardBackground">#FF1B1720</color>
 </resources>

@@ -3,11 +3,14 @@ package com.android.wassally.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * this is the super class of user model, contains the main common fields
- * **/
 
 public class User {
+    @SerializedName("id")
+    private Integer id;
+
+    @SerializedName("auth_token")
+    private String token;
+
     @SerializedName ("email")
     private String email;
     @SerializedName("username")
@@ -23,6 +26,7 @@ public class User {
     @SerializedName("governate")
     private String governate;
     @SerializedName("city")
+
     private String city;
     @SerializedName ("phone_number")
     private String phoneNumber;
@@ -33,11 +37,11 @@ public class User {
     @Expose(serialize = false, deserialize = false)
     private String image;
 
-    //constructor
-
-    public User(String email, String username, String firstName, String lastName,
-                boolean isCaptain, boolean isClient, String governate, String city,
+    public User(Integer id, String token, String email, String username, String firstName,
+                String lastName, boolean isCaptain, boolean isClient, String governate, String city,
                 String phoneNumber, String[] captain, String image) {
+        this.id = id;
+        this.token = token;
         this.email = email;
         this.username = username;
         this.firstName = firstName;
@@ -52,6 +56,14 @@ public class User {
     }
 
     /** setter **/
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -102,6 +114,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public String getUsername() {

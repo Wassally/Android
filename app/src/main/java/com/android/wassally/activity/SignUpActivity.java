@@ -13,13 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.model.SignUP;
-import com.android.wassally.model.Profile;
+import com.android.wassally.model.User;
 import com.android.wassally.networkUtils.UserClient;
 
-import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,36 +32,25 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mUserNameEt;
     private EditText mPasswordEt;
     private EditText mPhoneNumberEt;
-    private Button mSignUpButton;
-
-    private String firstName ;
-    private String lastName ;
-    private String email ;
-    private String username;
-    private String password;
-    private String phoneNumber;
-
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_sign_up);
+
         mFirstNameEt = findViewById(R.id.sign_up_first_name_et);
         mLastNameEt = findViewById(R.id.sign_up_last_name_et);
         mEmailEt = findViewById(R.id.sign_up_email_et);
         mPasswordEt = findViewById(R.id.sign_up_password_et);
         mPhoneNumberEt = findViewById(R.id.sign_up_phone_number_et);
         mUserNameEt = findViewById(R.id.sign_up_username_et);
-        mSignUpButton = findViewById(R.id.sign_up_button);
-
+        Button mSignUpButton = findViewById(R.id.sign_up_button);
         progressDialog = new ProgressDialog(this);
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                          attemptSignUp();
             }
         });
@@ -71,38 +59,44 @@ public class SignUpActivity extends AppCompatActivity {
     private void sendSignUpNetworkRequest(SignUP signUP){
         //create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://wassally.herokuapp.com/api/")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         // get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);
-        Call<Profile> call = client.createAccount(signUP);
-        call.enqueue(new Callback<Profile>() {
+        Call<User> call = client.createAccount(signUP);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 progressDialog.cancel();
 
-                if(response.body()!=null) {
+                if(response.isSuccessful()&&response.body()!=null) {
 
                     String token = response.body().getToken();
+                    int userId =response.body().getId();
+                    String firstName = response.body().getFirstName();
+                    String lastName = response.body().getLastName();
+                    String fullName = firstName+""+lastName;
+
                     //save this token to sharedPreferences in order not to login every time user lunch the app
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
-                    preferences.edit().putString("auth_token", token).apply();
+                    preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
+                    preferences.edit().putInt(Constants.USER_ID,userId).apply();
+                    preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
 
                     Toast.makeText(SignUpActivity.this, "Successful sign Up", Toast.LENGTH_SHORT).show();
+
+                    //open home activity
                     Intent homeIntent = new Intent(SignUpActivity.this, ClientHomeActivity.class);
-                    String fullName = response.body().getFirstName() + " " + response.body().getLastName();
-                    homeIntent.putExtra("full_name", fullName);
                     startActivity(homeIntent);
                     finish();
                 }
             }
 
             @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 progressDialog.cancel();
                 Toast.makeText(SignUpActivity.this,"some thing went wrong! :( ",Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -126,12 +120,12 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         // Store values at the time of the sign up attempt.
-        firstName = getText(mFirstNameEt);
-        lastName = getText(mLastNameEt);
-        email = getText(mEmailEt);
-        password = getText(mPasswordEt);
-        phoneNumber = (getText(mPhoneNumberEt));
-        username = getText(mUserNameEt);
+        String firstName = mFirstNameEt.getText().toString();
+        String lastName = mLastNameEt.getText().toString();
+        String email = mEmailEt.getText().toString();
+        String password = mPasswordEt.getText().toString();
+        String phoneNumber = mPhoneNumberEt.getText().toString();
+        String username = mUserNameEt.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -190,18 +184,11 @@ public class SignUpActivity extends AppCompatActivity {
             progressDialog.setMessage("Signing Up ..");
             progressDialog.show();
 
-            SignUP signUP = new SignUP(firstName,lastName,email,username,password,
+            SignUP signUP = new SignUP(firstName, lastName, email, username, password,
                     phoneNumber,true,false);
             sendSignUpNetworkRequest(signUP);
         }
 
-    }
-
-    private String getText(View view) {
-        String text;
-        EditText editText = (EditText) view;
-        text = editText.getText().toString();
-        return text;
     }
 
     private boolean isEmailValid(String email) {

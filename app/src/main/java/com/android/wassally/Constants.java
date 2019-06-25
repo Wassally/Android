@@ -2,6 +2,12 @@ package com.android.wassally;
 
 public final class Constants {
 
+    public static final String BASE_URL = "https://wassally.herokuapp.com/api/";
+    public static final String AUTH_TOKEN ="auth_token";
+    public static final String USER_ID = "user_id";
+    public static final String FULL_NAME = "full_name";
+
+
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
     public static final String PACKAGE_NAME = "com.android.wassally";
