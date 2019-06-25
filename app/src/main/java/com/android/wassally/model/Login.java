@@ -20,20 +20,18 @@ public class Login {
     @SerializedName("user_id")
     @Expose(serialize = false)
     private int id ;
-    @SerializedName("email")
+    @SerializedName("first_name")
     @Expose(serialize = false)
-    private String email;
-    @SerializedName("name")
+    private String firstName ;
+    @SerializedName("last_name")
     @Expose(serialize = false)
-    private String name ;
+    private String lastName ;
 
-    public Login(String username, String password, String token, int id, String email, String name) {
-        this.username = username;
-        this.password = password;
+    public Login(String token, int id, String firstName, String lastName) {
         this.token = token;
         this.id = id;
-        this.email = email;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Login(String username, String password) {
@@ -50,12 +48,12 @@ public class Login {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
     /**setter*/

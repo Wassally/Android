@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,15 +74,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if(response.isSuccessful()&&response.body()!=null) {
 
                     String token = response.body().getToken();
-                    int userId =response.body().getId();
                     String firstName = response.body().getFirstName();
                     String lastName = response.body().getLastName();
-                    String fullName = firstName+""+lastName;
+                    String fullName = firstName+" "+lastName;
+                    Log.i("mytag","full name "+ fullName);
 
                     //save this token to sharedPreferences in order not to login every time user lunch the app
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
                     preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
-                    preferences.edit().putInt(Constants.USER_ID,userId).apply();
                     preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
 
                     Toast.makeText(SignUpActivity.this, "Successful sign Up", Toast.LENGTH_SHORT).show();

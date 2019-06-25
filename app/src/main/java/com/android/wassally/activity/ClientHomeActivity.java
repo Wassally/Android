@@ -2,12 +2,10 @@ package com.android.wassally.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,19 +21,11 @@ import com.android.wassally.R;
 import com.android.wassally.fragment.CompletedFragment;
 import com.android.wassally.fragment.FavoriteFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
-import com.android.wassally.fragment.ProfileFragment;
-
-import java.util.jar.Manifest;
 
 public class ClientHomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private static final String AUTH_TOKEN = "auth_token";
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawer;
-    private BottomNavigationView bottomNavigationView;
-    private NavigationView navigationView;
     private View mHeader;
 
 
@@ -55,20 +45,50 @@ public class ClientHomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         mHeader = navigationView.getHeaderView(0);
         populateNavHeaderData();
 
-
-        bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        FloatingActionButton mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayNewOrderActivity();
+            }
+        });
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyOrdersFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_my_orders);
         }
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+
+            case R.id.nav_my_orders :
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyOrdersFragment()).commit();
+                break;
+            case R.id.nav_favorite:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FavoriteFragment()).commit();
+                break;
+            case R.id.nav_logout:
+                logOut();
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    private void displayNewOrderActivity() {
+            startActivity(new Intent(this, CreatePackageActivity.class));
     }
 
     /**
@@ -90,50 +110,7 @@ public class ClientHomeActivity extends AppCompatActivity
     }
 
     private void openProfile() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new ProfileFragment()).commit();
-        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_profile);
-
-    }
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-        switch (menuItem.getItemId()) {
-            case R.id.nav_history:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new CompletedFragment()).commit();
-                break;
-
-            case R.id.nav_favorite:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FavoriteFragment()).commit();
-                break;
-            case R.id.bottom_nav_orders:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MyOrdersFragment()).commit();
-                break;
-            case R.id.bottom_nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
-                break;
-            case R.id.bottom_nav_newOrder:
-                displayNewOrderActivity();
-                break;
-            case R.id.nav_logout:
-                logOut();
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-
-    private void displayNewOrderActivity() {
-            startActivity(new Intent(this, CreatePackageActivity.class));
-            overridePendingTransition(R.anim.slide_in_up, R.anim.splash_fade_out);
-
+        startActivity(new Intent(ClientHomeActivity.this,ProfileActivity.class));
     }
 
     /**
@@ -145,21 +122,19 @@ public class ClientHomeActivity extends AppCompatActivity
         //clear token and finish activity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
         preferences.getAll().clear();
-        preferences.edit().putString(AUTH_TOKEN, "").apply();
+        preferences.edit().putString(Constants.AUTH_TOKEN, "").apply();
         preferences.edit().putString(Constants.FULL_NAME, "").apply();
-        preferences.edit().putInt(Constants.USER_ID,-1).apply();
         finish();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_orders);
     }
 
     @Override
     public void onBackPressed() {
-        if (!drawer.isDrawerOpen(GravityCompat.START) && bottomNavigationView.getSelectedItemId() == R.id.bottom_nav_orders) {
+        if (!drawer.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
         }
 
@@ -168,11 +143,5 @@ public class ClientHomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
 
-        //home is the default fragment
-        if (bottomNavigationView.getSelectedItemId() != R.id.bottom_nav_orders) {
-            bottomNavigationView.setSelectedItemId(R.id.bottom_nav_orders);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new MyOrdersFragment()).commit();
-        }
     }
 }

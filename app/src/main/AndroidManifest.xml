@@ -27,12 +27,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/loginTheme"
-            android:screenOrientation="locked"/>
+            android:screenOrientation="locked"
+            android:theme="@style/loginTheme" />
         <activity
             android:name=".activity.ClientHomeActivity"
             android:launchMode="singleTop"
@@ -46,22 +45,23 @@
         <activity
             android:name=".activity.NewOrderWithMapActivity"
             android:label="@string/title_activity_new_order_with_map">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activity.CreatePackageActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CreatePackageActivity" />
         </activity>
 
         <service
             android:name=".networkUtils.services.FetchAddressIntentService"
             android:exported="false" />
 
-        <activity android:name=".activity.CreatePackageActivity"
+        <activity
+            android:name=".activity.CreatePackageActivity"
             android:label="@string/new_order">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ClientHomeActivity" />
-
         </activity>
+        <activity android:name=".activity.ProfileActivity"></activity>
     </application>
 
 </manifest>
