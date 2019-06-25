@@ -31,7 +31,8 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/loginTheme" />
+            android:theme="@style/loginTheme"
+            android:screenOrientation="locked"/>
         <activity
             android:name=".activity.ClientHomeActivity"
             android:launchMode="singleTop"

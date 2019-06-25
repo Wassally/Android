@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.wassally.BuildConfig;
 import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.networkUtils.services.FetchAddressIntentService;
@@ -99,7 +100,7 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         setContentView(R.layout.activity_new_order_with_map);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NewOrderWithMapActivity.this);
-        Places.initialize(NewOrderWithMapActivity.this, "AIzaSyBnLSpuk-r3uXnlaoyKP6E6UPcBdLq7sbU");
+        Places.initialize(NewOrderWithMapActivity.this, BuildConfig.ApiKey);
         placesClient = Places.createClient(NewOrderWithMapActivity.this);
         final AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
 
