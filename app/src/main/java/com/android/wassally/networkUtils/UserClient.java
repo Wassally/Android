@@ -1,5 +1,6 @@
 package com.android.wassally.networkUtils;
 
+import com.android.wassally.model.ComputeSalary;
 import com.android.wassally.model.Login;
 import com.android.wassally.model.Order;
 import com.android.wassally.model.SignUP;
@@ -19,4 +20,7 @@ public interface UserClient {
 
     @POST("packages/")
     Call<Order> createNewPackage (@Body Order order, @Header("Authorization") String authToken);
+
+    @POST("computingsalary/")
+    Call<ComputeSalary> getExpectedSalary (@Body ComputeSalary computeSalary);
 }

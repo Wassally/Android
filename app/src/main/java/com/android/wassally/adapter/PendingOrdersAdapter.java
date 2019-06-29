@@ -76,8 +76,6 @@ public class PendingOrdersAdapter extends RecyclerView.Adapter<PendingOrdersAdap
         TextView toAddressTextView = holder.toAddress;
 
         receiverNameTextView.setText(order.getReceiverName());
-        String toAddressString = order.getToGovernate()+", "+order.getToCity();
-        toAddressTextView.setText(toAddressString);
 
     }
 

@@ -81,7 +81,6 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
     //views
     private MaterialSearchBar materialSearchBar;
     private View mapView;
-    private Button subimtLocationButton;
     private RippleBackground rippleBg;
     private TextView mDisplayAddressTextView;
     private ProgressBar mProgressBar;
@@ -91,6 +90,7 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
     private String addressOutput;
     private int addressResultCode;
     private boolean isSupportedArea;
+    private LatLng currentMarkerPosition;
 
     private final float DEFAULT_ZOOM = 17;
 
@@ -109,13 +109,13 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         mapView = mapFragment.getView();
 
         materialSearchBar = findViewById(R.id.searchBar);
-        subimtLocationButton = findViewById(R.id.submit_location_button);
+        Button subimtLocationButton = findViewById(R.id.submit_location_button);
         rippleBg = findViewById(R.id.ripple_bg);
         mDisplayAddressTextView = findViewById(R.id.tv_display_marker_location);
         mProgressBar = findViewById(R.id.progress_bar);
         mSmallPinIv = findViewById(R.id.small_pin);
 
-
+        //receive intent from create package activity
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.LOCATION_REQUEST_KEY)) {
             int locationRequestCode = intent.getIntExtra(Constants.LOCATION_REQUEST_KEY, 1);
@@ -265,19 +265,21 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
 
             @Override
             public void OnItemDeleteListener(int position, View v) {
-
             }
         });
 
         subimtLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if the process of getting address failed or this is not supported area , don't submit
                 if (addressResultCode == Constants.FAILURE_RESULT || !isSupportedArea) {
                     Toast.makeText(NewOrderWithMapActivity.this, "failed to select location please try again", Toast.LENGTH_SHORT).show();
                 } else {
 
                     Intent data = new Intent();
-                    data.putExtra("address", addressOutput);
+                    data.putExtra(Constants.SELECTED_ADDRESS, addressOutput);
+                    data.putExtra(Constants.LOCATION_LAT_EXTRA, currentMarkerPosition.latitude);
+                    data.putExtra(Constants.LOCATION_LNG_EXTRA, currentMarkerPosition.longitude);
                     setResult(Constants.RESULT_OK, data);
                     finish();
                 }
@@ -360,7 +362,8 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
             public void onCameraIdle() {
                 mSmallPinIv.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
-                mDisplayAddressTextView.setVisibility(View.INVISIBLE);
+
+
                 Log.i("mytag", "changing address");
 //                ToDo : you can use retrofit for this network call instead of using services
                 //hint: services is just for doing background tasks when the app is closed no need to use services to update ui
@@ -429,8 +432,7 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
     }
 
     protected void startIntentService() {
-        //vars
-        LatLng currentMarkerPosition = mMap.getCameraPosition().target;
+        currentMarkerPosition = mMap.getCameraPosition().target;
         AddressResultReceiver resultReceiver = new AddressResultReceiver(new Handler());
 
         Intent intent = new Intent(this, FetchAddressIntentService.class);

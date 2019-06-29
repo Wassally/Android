@@ -75,6 +75,10 @@
     <string name="service_not_available">service not available ..check network connection</string>
     <string name="no_address_found">No address found</string>
     <string name="address_found">address found</string>
+    <string name="note">Note</string>
+    <string name="type_your_note_here">Type your note here</string>
+    <string name="salary">Salary</string>
+    <string name="salary_hint">This delivery will cost you :</string>
 
 
 </resources>

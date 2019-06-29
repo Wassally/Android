@@ -1,30 +1,21 @@
 package com.android.wassally.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.android.wassally.model.Addresses.PackageAddress;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Order {
+public class Order implements Parcelable {
 
     // request
-    @SerializedName("from_govrnate")
-    private String fromGovernate;
-    @SerializedName("from_city")
-    private String fromCity;
-    @SerializedName("from_address")
-    private String fromAddress;
     @SerializedName("sender_phone_number")
     private String senderPhoneNumber;
-    @SerializedName("to_governate")
-    private String toGovernate;
-    @SerializedName("to_city")
-    private String toCity;
-    @SerializedName("to_address")
-    private String toAddress;
     @SerializedName("receiver_name")
     private String receiverName;
     @SerializedName("receiver_phone_number")
     private String receiverPhoneNumber;
-
     @SerializedName("note")
     private String note;
     @SerializedName("duration")
@@ -33,6 +24,8 @@ public class Order {
     private int weight;
     @SerializedName("transport_way")
     private String transportWay;
+    @SerializedName("package_address")
+    private PackageAddress packageAddress;
 
     // reply
     @SerializedName("id")
@@ -47,69 +40,49 @@ public class Order {
     @Expose(serialize = false)
     private String state;
 
-    public Order(String fromGovernate, String fromCity, String fromAddress,String senderPhoneNumber,
-                 String toGovernate, String toCity, String toAddress, String receiverName,
-                 String receiverPhoneNumber, String note, int duration, int weight, String transportWay) {
+    @SerializedName("created_at")
+    @Expose(serialize = false)
+    private String createdAt;
 
-        this.fromGovernate = fromGovernate;
-        this.fromCity = fromCity;
-        this.fromAddress = fromAddress;
-        this.toGovernate = toGovernate;
-        this.toCity = toCity;
-        this.toAddress = toAddress;
-        this.receiverName = receiverName;
+    @SerializedName("wassally_salary")
+    @Expose(serialize = false)
+    private int salary;
+
+    //constructor when sending request
+    public Order(String senderPhoneNumber, String receiverName, String receiverPhoneNumber,
+                 String note, int duration, int weight, String transportWay, PackageAddress packageAddress) {
         this.senderPhoneNumber = senderPhoneNumber;
+        this.receiverName = receiverName;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.note = note;
         this.duration = duration;
         this.weight = weight;
         this.transportWay = transportWay;
+        this.packageAddress = packageAddress;
     }
 
-    public Order(String fromGovernate, String fromCity, String fromAddress, String senderPhoneNumber,
-                 String toGovernate, String toCity, String toAddress, String receiverName,
-                 String receiverPhoneNumber, String note, int duration, int weight,
-                 String transportWay, int id, int ownerId, String state) {
-        this.fromGovernate = fromGovernate;
-        this.fromCity = fromCity;
-        this.fromAddress = fromAddress;
+    public Order(String senderPhoneNumber, String receiverName, String receiverPhoneNumber,
+                 String note, int duration, int weight, String transportWay,
+                 PackageAddress packageAddress, int id, int ownerId, String state, String createdAt, int salary) {
         this.senderPhoneNumber = senderPhoneNumber;
-        this.toGovernate = toGovernate;
-        this.toCity = toCity;
-        this.toAddress = toAddress;
         this.receiverName = receiverName;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.note = note;
         this.duration = duration;
         this.weight = weight;
         this.transportWay = transportWay;
+        this.packageAddress = packageAddress;
         this.id = id;
         this.ownerId = ownerId;
         this.state = state;
+        this.createdAt = createdAt;
+        this.salary = salary;
     }
 
-    public void setFromGovernate(String fromGovernate) {
-        this.fromGovernate = fromGovernate;
-    }
 
-    public void setFromCity(String fromCity) {
-        this.fromCity = fromCity;
-    }
 
-    public void setFromAddress(String fromAddress) {
-        this.fromAddress = fromAddress;
-    }
-
-    public void setToGovernate(String toGovernate) {
-        this.toGovernate = toGovernate;
-    }
-
-    public void setToCity(String toCity) {
-        this.toCity = toCity;
-    }
-
-    public void setToAddress(String toAddress) {
-        this.toAddress = toAddress;
+    public void setSenderPhoneNumber(String senderPhoneNumber) {
+        this.senderPhoneNumber = senderPhoneNumber;
     }
 
     public void setReceiverName(String receiverName) {
@@ -118,10 +91,6 @@ public class Order {
 
     public void setReceiverPhoneNumber(String receiverPhoneNumber) {
         this.receiverPhoneNumber = receiverPhoneNumber;
-    }
-
-    public void setSenderPhoneNumber(String senderPhoneNumber) {
-        this.senderPhoneNumber = senderPhoneNumber;
     }
 
     public void setNote(String note) {
@@ -140,6 +109,10 @@ public class Order {
         this.transportWay = transportWay;
     }
 
+    public void setPackageAddress(PackageAddress packageAddress) {
+        this.packageAddress = packageAddress;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -152,36 +125,21 @@ public class Order {
         this.state = state;
     }
 
-    public String getFromGovernate() {
-        return fromGovernate;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getFromCity() {
-        return fromCity;
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
-    public String getFromAddress() {
-        return fromAddress;
-    }
 
-    public String getToGovernate() {
-        return toGovernate;
-    }
-
-    public String getToCity() {
-        return toCity;
-    }
-
-    public String getToAddress() {
-        return toAddress;
+    public String getSenderPhoneNumber() {
+        return senderPhoneNumber;
     }
 
     public String getReceiverName() {
         return receiverName;
-    }
-
-    public String getSenderPhoneNumber() {
-        return senderPhoneNumber;
     }
 
     public String getReceiverPhoneNumber() {
@@ -204,6 +162,10 @@ public class Order {
         return transportWay;
     }
 
+    public PackageAddress getPackageAddress() {
+        return packageAddress;
+    }
+
     public int getId() {
         return id;
     }
@@ -216,4 +178,61 @@ public class Order {
         return state;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(senderPhoneNumber);
+        dest.writeString(receiverName);
+        dest.writeString(receiverPhoneNumber);
+        dest.writeString(note);
+        dest.writeInt(duration);
+        dest.writeInt(weight);
+        dest.writeString(transportWay);
+        dest.writeParcelable(packageAddress, flags);
+        dest.writeInt(id);
+        dest.writeInt(ownerId);
+        dest.writeString(state);
+        dest.writeString(createdAt);
+        dest.writeInt(salary);
+    }
+    private Order(Parcel in) {
+        senderPhoneNumber = in.readString();
+        receiverName = in.readString();
+        receiverPhoneNumber = in.readString();
+        note = in.readString();
+        duration = in.readInt();
+        weight = in.readInt();
+        transportWay = in.readString();
+        packageAddress = in.readParcelable(PackageAddress.class.getClassLoader());
+        id = in.readInt();
+        ownerId = in.readInt();
+        state = in.readString();
+        createdAt = in.readString();
+        salary = in.readInt();
+    }
+
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 }

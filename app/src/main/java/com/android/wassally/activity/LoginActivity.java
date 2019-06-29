@@ -2,7 +2,6 @@ package com.android.wassally.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,7 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,8 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.android.wassally.Constants.AUTH_TOKEN;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -170,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void alertView() {
-        android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(getString(R.string.login_error_message))
                 .setNegativeButton("Ok",null)
                 .show();

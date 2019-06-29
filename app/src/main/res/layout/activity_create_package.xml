@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.CreatePackageActivity">
@@ -328,30 +329,128 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_bike" />
+                android:src="@drawable/ic_note" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Transport by"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-
-            <Spinner
-                android:id="@+id/sp_trans_type"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginLeft="14dp"></Spinner>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+                <EditText
+                    android:id="@+id/et_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/note_background"
+                    android:hint="@string/type_your_note_here"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:minLines="3"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_create_new_package"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/submit"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/cardBackground"
+            app:cardCornerRadius="@dimen/cardView_radius"
+            app:cardElevation="@dimen/cardView_elevation"
+            app:contentPadding="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginBottom="14dp"
+                    android:padding="0dp"
+                    android:text="@string/shipped_by"
+                    android:textColor="@android:color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:drawableRight="@drawable/logo_small"
+                        android:paddingEnd="15dp"
+                        android:paddingRight="15dp" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:text="@string/shipped_by_chosen_captain"
+                        android:textColor="@android:color/darker_gray" />
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="@string/shipped_by_hint"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent">
+            </View>
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:layout_margin="14dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_background"
+                android:text="Continue" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
