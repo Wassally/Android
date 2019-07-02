@@ -86,7 +86,7 @@
     <string name="state_pending_caption">Captain just took package from you , we\'ll inform you when he is ready to go</string>
     <string name="state_on_way_caption">Captain is ready to go  , he is on way</string>
     <string name="state_delivered_caption">Your package has been successfully delivered ,please give us your feed back </string>
-
+    <string name="phone_number">Phone Number</string>
 
 
 </resources>
