@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.wassally.R;
+import com.android.wassally.activity.ClientHomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +25,8 @@ public class FavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((ClientHomeActivity)getActivity()).setActionBarTitle("Favorites");
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false);
     }

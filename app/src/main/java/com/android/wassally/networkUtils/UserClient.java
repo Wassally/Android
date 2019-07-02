@@ -6,8 +6,11 @@ import com.android.wassally.model.Order;
 import com.android.wassally.model.SignUP;
 import com.android.wassally.model.User;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -23,4 +26,7 @@ public interface UserClient {
 
     @POST("computingsalary/")
     Call<ComputeSalary> getExpectedSalary (@Body ComputeSalary computeSalary);
+
+    @GET("packages/")
+    Call<List<Order>> getMyOrders (@Header("Authorization") String authToken);
 }

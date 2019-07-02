@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="14dp"
+    android:layout_marginStart="14dp"
+    android:layout_marginEnd="14dp"
+    app:contentPadding="5dp"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/list_item_state_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="4dp"
+                android:src="@drawable/state_waiting"
+                android:background="@drawable/note_background" />
+
+            <TextView
+                android:id="@+id/list_item_state_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                tools:text="waiting"
+                android:padding="6dp"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/note_background" />
+
+            <TextView
+                android:id="@+id/list_item_state_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/list_item_state_image"
+                android:layout_below="@id/list_item_state_tv"
+                android:padding="6dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black"
+                tools:text="your package is successfully created , we'll be in touch with you soon " />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height=".5dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/list_item_to_location_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="5dp"
+            android:padding="8dp"
+            tools:text="Rehab Mall 2, Cairo Governorate, Egypt"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:maxLines="1"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/list_item_to_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:drawablePadding="5dp"
+            android:text="Essam Mosbah"
+            android:drawableStart="@drawable/ic_person"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/list_item_created_at_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:padding="6dp"
+            tools:text="25/12/2019"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

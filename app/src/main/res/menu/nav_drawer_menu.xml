@@ -8,14 +8,14 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_my_orders"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="My Orders" />
+            android:title="Home" />
 
         <item
-            android:id="@+id/nav_favorite"
-            android:icon="@drawable/ic_favorite_black"
-            android:title="Favorite Delivery" />
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history_black"
+            android:title="History" />
     </group>
 
         <group

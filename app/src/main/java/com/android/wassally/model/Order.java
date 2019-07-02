@@ -36,7 +36,7 @@ public class Order implements Parcelable {
     @Expose(serialize = false)
     private int ownerId;
 
-    @SerializedName("state")
+    @SerializedName("delivery_state")
     @Expose(serialize = false)
     private String state;
 
@@ -47,6 +47,12 @@ public class Order implements Parcelable {
     @SerializedName("wassally_salary")
     @Expose(serialize = false)
     private int salary;
+
+    @SerializedName("captain_name")
+    @Expose(serialize = false)
+    private String captainName;
+
+
 
     //constructor when sending request
     public Order(String senderPhoneNumber, String receiverName, String receiverPhoneNumber,
@@ -61,25 +67,12 @@ public class Order implements Parcelable {
         this.packageAddress = packageAddress;
     }
 
-    public Order(String senderPhoneNumber, String receiverName, String receiverPhoneNumber,
-                 String note, int duration, int weight, String transportWay,
-                 PackageAddress packageAddress, int id, int ownerId, String state, String createdAt, int salary) {
-        this.senderPhoneNumber = senderPhoneNumber;
+    public Order(String receiverName, PackageAddress packageAddress, String state, String createdAt) {
         this.receiverName = receiverName;
-        this.receiverPhoneNumber = receiverPhoneNumber;
-        this.note = note;
-        this.duration = duration;
-        this.weight = weight;
-        this.transportWay = transportWay;
         this.packageAddress = packageAddress;
-        this.id = id;
-        this.ownerId = ownerId;
         this.state = state;
         this.createdAt = createdAt;
-        this.salary = salary;
     }
-
-
 
     public void setSenderPhoneNumber(String senderPhoneNumber) {
         this.senderPhoneNumber = senderPhoneNumber;
@@ -184,6 +177,10 @@ public class Order implements Parcelable {
 
     public int getSalary() {
         return salary;
+    }
+
+    public String getCaptainName() {
+        return captainName;
     }
 
     @Override

@@ -125,10 +125,11 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ff3a1e" />
-                            <entry key="outputName" value="ic_note" />
-                            <entry key="sourceFile" value="C:\Users\Essam\Downloads\add-button-inside-black-circle.svg" />
+                            <entry key="outputName" value="ic_filter" />
+                            <entry key="sourceFile" value="C:\Users\Essam\Downloads\14210676551555930575.svg" />
                           </map>
                         </option>
                       </PersistentState>

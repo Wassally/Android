@@ -79,6 +79,14 @@
     <string name="type_your_note_here">Type your note here</string>
     <string name="salary">Salary</string>
     <string name="salary_hint">This delivery will cost you :</string>
+    <string name="your_orders_will_be_displayed_here">Your orders will be displayed here</string>
+    <string name="get_started_by_creating_new_order">Get started by creating new order</string>
+
+    <string name="state_waiting_caption">Your package is successfully created , we\'ll be in touch with you soon</string>
+    <string name="state_pending_caption">Captain just took package from you , we\'ll inform you when he is ready to go</string>
+    <string name="state_on_way_caption">Captain is ready to go  , he is on way</string>
+    <string name="state_delivered_caption">Your package has been successfully delivered ,please give us your feed back </string>
+
 
 
 </resources>

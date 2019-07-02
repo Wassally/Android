@@ -18,8 +18,8 @@ import android.widget.TextView;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
-import com.android.wassally.fragment.CompletedFragment;
 import com.android.wassally.fragment.FavoriteFragment;
+import com.android.wassally.fragment.HistoryFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
 
 public class ClientHomeActivity extends AppCompatActivity
@@ -32,6 +32,7 @@ public class ClientHomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_client_home);
 
         //use our toolBar as the action bar
@@ -61,7 +62,7 @@ public class ClientHomeActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyOrdersFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_my_orders);
+            navigationView.setCheckedItem(R.id.nav_home);
         }
 
     }
@@ -70,13 +71,13 @@ public class ClientHomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
 
-            case R.id.nav_my_orders :
+            case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyOrdersFragment()).commit();
                 break;
-            case R.id.nav_favorite:
+            case R.id.nav_history:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FavoriteFragment()).commit();
+                        new HistoryFragment()).commit();
                 break;
             case R.id.nav_logout:
                 logOut();
@@ -143,5 +144,9 @@ public class ClientHomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
 
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }
