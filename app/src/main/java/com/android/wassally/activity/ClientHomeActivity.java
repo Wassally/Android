@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
-import com.android.wassally.fragment.FavoriteFragment;
 import com.android.wassally.fragment.HistoryFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
 
@@ -112,6 +111,7 @@ public class ClientHomeActivity extends AppCompatActivity
 
     private void openProfile() {
         startActivity(new Intent(ClientHomeActivity.this,ProfileActivity.class));
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     /**

@@ -1,22 +1,19 @@
 package com.android.wassally.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
-import com.android.wassally.model.Addresses.Address;
-import com.android.wassally.model.Addresses.Location;
-import com.android.wassally.model.Addresses.PackageAddress;
+import com.android.wassally.helpers.DialogUtils;
 import com.android.wassally.model.Order;
 import com.android.wassally.networkUtils.UserClient;
 
@@ -37,8 +34,6 @@ public class PackageSummaryActivity extends AppCompatActivity {
     private TextView mNoteTextView;
     private TextView mSubmitOrderButton;
     private TextView mSalaryTextView;
-
-    private Dialog dialog;
 
     private Order order;
 
@@ -61,11 +56,9 @@ public class PackageSummaryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.hasExtra(Constants.SALARY_EXTRA)){
             mSalaryTextView.setText(String.valueOf(intent.getDoubleExtra(Constants.SALARY_EXTRA,0)));
-            Log.i("mytag","salary is " + String.valueOf(intent.getIntExtra(Constants.SALARY_EXTRA,0)));
         }
         if (intent.hasExtra(Constants.ORDER_EXTRA)){
             order = intent.getParcelableExtra(Constants.ORDER_EXTRA);
-
 
             mToNameTextView.setText(order.getReceiverName());
             mToLocationTextView.setText(order.getPackageAddress().getToAddress().getFormatedAddress());
@@ -76,15 +69,14 @@ public class PackageSummaryActivity extends AppCompatActivity {
             mWeightTextView.setText(String.valueOf(order.getWeight()));
             mDurationTextView.setText(String.valueOf(order.getDuration()));
             mNoteTextView.setText(order.getNote());
-        }else {
-            Log.i("mytag","error getting the order");
+
         }
 
         mSubmitOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (order != null) {
-                    showProgressDialog();
+                    DialogUtils.showDialog(PackageSummaryActivity.this,getString(R.string.creating_order_loading_message));
                     sendCreatePackageRequest(order);
                 }else {
                     Toast.makeText(PackageSummaryActivity.this,"error with creating order",Toast.LENGTH_SHORT).show();
@@ -109,7 +101,7 @@ public class PackageSummaryActivity extends AppCompatActivity {
         orderCall.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
-                dialog.dismiss();
+                DialogUtils.dismissDialog();
                 if (response.isSuccessful()){
                     Toast.makeText(PackageSummaryActivity.this,"package created",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(PackageSummaryActivity.this,ClientHomeActivity.class));
@@ -121,18 +113,10 @@ public class PackageSummaryActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
-                dialog.dismiss();
+                DialogUtils.dismissDialog();
                 Toast.makeText(PackageSummaryActivity.this,"check network connection",Toast.LENGTH_SHORT).show();
             }
         });
 
-    }
-
-    private void showProgressDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setView(R.layout.progress);
-        dialog = builder.create();
-        dialog.setCancelable(false);
-        dialog.show();
     }
 }

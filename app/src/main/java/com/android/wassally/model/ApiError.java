@@ -1,19 +1,22 @@
 package com.android.wassally.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApiError {
+    @SerializedName("errors")
+    private ArrayList<String> errors;
+
+    @SerializedName("status_code")
     private int statusCode;
-    private String endpoint;
-    private String message= "unknown error";
+
+    public ArrayList<String> getErrors() {
+        return errors;
+    }
 
     public int getStatusCode() {
         return statusCode;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

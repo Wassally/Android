@@ -40,7 +40,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/loginTheme">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activity.LoginActivity" />
+        </activity>
         <activity
             android:name=".activity.PermissionActivity"
             android:theme="@style/AppTheme.NoActionBar" />

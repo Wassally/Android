@@ -1,6 +1,6 @@
 package com.android.wassally.helpers;
 
-import com.android.wassally.activity.CreatePackageActivity;
+import com.android.wassally.activity.SignUpActivity;
 import com.android.wassally.model.ApiError;
 
 import java.io.IOException;
@@ -11,9 +11,9 @@ import retrofit2.Converter;
 import retrofit2.Response;
 public class ErrorUtils {
 
-   /* public static ApiError parseError(Response<?>response){
+    public static ApiError parseError(Response<?>response){
         Converter<ResponseBody,ApiError> converter =
-                CreatePackageActivity
+                SignUpActivity
                 .retrofit
                 .responseBodyConverter(ApiError.class,new Annotation[0]);
 
@@ -24,5 +24,5 @@ public class ErrorUtils {
             return new ApiError();
         }
         return error;
-    }*/
+    }
 }

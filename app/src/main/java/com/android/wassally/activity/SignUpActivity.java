@@ -1,6 +1,5 @@
 package com.android.wassally.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +14,14 @@ import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
+import com.android.wassally.helpers.DialogUtils;
+import com.android.wassally.helpers.ErrorUtils;
+import com.android.wassally.model.ApiError;
 import com.android.wassally.model.SignUP;
 import com.android.wassally.model.User;
 import com.android.wassally.networkUtils.UserClient;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,13 +30,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
+    //create retrofit instance
+    private static Retrofit.Builder builder = new Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create());
+    public static Retrofit retrofit = builder.build();
+
     private EditText mFirstNameEt;
     private EditText mLastNameEt;
     private EditText mEmailEt;
     private EditText mUserNameEt;
     private EditText mPasswordEt;
     private EditText mPhoneNumberEt;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,6 @@ public class SignUpActivity extends AppCompatActivity {
         mPhoneNumberEt = findViewById(R.id.sign_up_phone_number_et);
         mUserNameEt = findViewById(R.id.sign_up_username_et);
         Button mSignUpButton = findViewById(R.id.sign_up_button);
-        progressDialog = new ProgressDialog(this);
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,57 +64,11 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void sendSignUpNetworkRequest(SignUP signUP){
-        //create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-        // get client and call object for the request
-        UserClient client = retrofit.create(UserClient.class);
-        Call<User> call = client.createAccount(signUP);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                progressDialog.cancel();
-
-                if(response.isSuccessful()&&response.body()!=null) {
-
-                    String token = response.body().getToken();
-                    String firstName = response.body().getFirstName();
-                    String lastName = response.body().getLastName();
-                    String fullName = firstName+" "+lastName;
-                    Log.i("mytag","full name "+ fullName);
-
-                    //save this token to sharedPreferences in order not to login every time user lunch the app
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
-                    preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
-                    preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
-
-                    Toast.makeText(SignUpActivity.this, "Successful sign Up", Toast.LENGTH_SHORT).show();
-
-                    //open home activity
-                    Intent homeIntent = new Intent(SignUpActivity.this, ClientHomeActivity.class);
-                    startActivity(homeIntent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                progressDialog.cancel();
-                Toast.makeText(SignUpActivity.this,"some thing went wrong! :( ",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
     /**
      * Attempts to sign up new account specified by the sign up form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual sign up attempt is made.
      */
-
     private void attemptSignUp(){
 
         // Reset errors.
@@ -181,8 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            progressDialog.setMessage("Signing Up ..");
-            progressDialog.show();
+            DialogUtils.showDialog(this, getString(R.string.sign_up_prgress_message));
 
             SignUP signUP = new SignUP(firstName, lastName, email, username, password,
                     phoneNumber,true,false);
@@ -191,11 +151,99 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * send signUp request to the server using retrofit and handling the response
+     * @param signUP object contains user input data
+     */
+    private void sendSignUpNetworkRequest(SignUP signUP){
+        // get client and call object for the request
+        UserClient client = retrofit.create(UserClient.class);
+        Call<User> call = client.createAccount(signUP);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                DialogUtils.dismissDialog();
+                if(response.isSuccessful()&&response.body()!=null) {
+                    //successfully created new user account
+                    startHomeActivity(response);
+                }else if (response.code()==400){
+                    //there is some error with user input data ex:(this user name already exists)
+                    extractErrorMessage(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                DialogUtils.dismissDialog();
+                Toast.makeText(SignUpActivity.this,"some thing went wrong!, check your network connection",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * after making successful network call to server
+     * start the app by displaying home activity and finish this one
+     * @param response the result of successful network call: Login object that contains basic user info
+     */
+    private void startHomeActivity(@NonNull Response<User> response) {
+        assert response.body() != null;
+        // get token and user full name
+        String token = response.body().getToken();
+        String firstName = response.body().getFirstName();
+        String lastName = response.body().getLastName();
+        String fullName = firstName + " " + lastName;
+
+        //save this token to sharedPreferences in order not to login every time user lunch the app
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
+        preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
+        preferences.edit().putString(Constants.FULL_NAME, fullName).apply();
+
+        Toast.makeText(SignUpActivity.this, "welcome "+firstName, Toast.LENGTH_SHORT).show();
+
+        //open home activity
+        Intent homeIntent = new Intent(SignUpActivity.this, ClientHomeActivity.class);
+        startActivity(homeIntent);
+        finish();
+    }
+
+    private void extractErrorMessage(Response<?> response) {
+
+        mEmailEt.setError(null);
+        mPasswordEt.setError(null);
+        mUserNameEt.setError(null);
+
+        View focusView = null;
+
+        ApiError apiError = ErrorUtils.parseError(response);
+        ArrayList<String> errors =apiError.getErrors();
+        String errorText;
+
+        for (int i=errors.size()-1;i>=0;i--){
+            errorText = errors.get(i);
+            String arr [] = errorText.split(":",2);
+            String head = arr[0];
+            String message = arr[1];
+            if (head.contains("email")){
+                mEmailEt.setError(message);
+                focusView= mEmailEt;
+
+            }else if(head.contains("username")){
+                mUserNameEt.setError(message);
+                focusView = mUserNameEt;
+
+            }else if(head.contains("password")) {
+                mPasswordEt.setError(message);
+                focusView = mPasswordEt;
+            }
+        }
+        focusView.requestFocus();
+    }
+
     private boolean isEmailValid(String email) {
-        return email.contains("@");
+        return email.contains("@")&& email.contains(".com");
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        return password.length() > 7;
     }
 }

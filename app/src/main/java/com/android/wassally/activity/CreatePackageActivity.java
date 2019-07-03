@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
+import com.android.wassally.helpers.DialogUtils;
 import com.android.wassally.model.Addresses.Address;
 import com.android.wassally.model.Addresses.Location;
 import com.android.wassally.model.Addresses.PackageAddress;
@@ -35,8 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreatePackageActivity extends AppCompatActivity {
-
-
+    //views
     private TextView mPickupLocationTextView;
     private TextView mDestinationLocationTextView;
     private EditText mReceiverNameEditText;
@@ -45,13 +45,11 @@ public class CreatePackageActivity extends AppCompatActivity {
     private EditText mDeliveryTimeEditText;
     private EditText mPackageWeightEditText;
     private EditText mNoteEditText;
-    private Button mContinueBtn;
 
+    //variables
     private double salary;
-
     private String pickupAddress;
     private String destinationAddress;
-
     private double toLatitude;
     private double toLongitude;
     private double fromLatitude;
@@ -60,14 +58,11 @@ public class CreatePackageActivity extends AppCompatActivity {
     private String fromAddressDescription = "sfsgsdgs";
     private Order order;
 
-    private Dialog dialog;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_package);
-
+        //close keyboard in the begin
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         LinearLayout mPickupLocationLayout = findViewById(R.id.pickup_location);
@@ -80,13 +75,12 @@ public class CreatePackageActivity extends AppCompatActivity {
         mDeliveryTimeEditText = findViewById(R.id.et_delivery_time);
         mPackageWeightEditText = findViewById(R.id.et_weight);
         mNoteEditText = findViewById(R.id.et_note);
-
-        mContinueBtn = findViewById(R.id.btn_continue);
+        Button mContinueBtn = findViewById(R.id.btn_continue);
 
         mContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkUserInputCalcSalary();
+                attemptCalcSalary();
             }
         });
 
@@ -151,7 +145,7 @@ public class CreatePackageActivity extends AppCompatActivity {
         }
     }
 
-    private void checkUserInputCalcSalary() {
+    private void attemptCalcSalary() {
 
         boolean cancel = false;
         String message = "";
@@ -167,7 +161,6 @@ public class CreatePackageActivity extends AppCompatActivity {
 
         int weight = 0;
         int duration = 0;
-
 
         if (TextUtils.isEmpty(packageWeight)) {
             message = (getString(R.string.enter_approximate_weight));
@@ -211,7 +204,7 @@ public class CreatePackageActivity extends AppCompatActivity {
         if (cancel) {
             alertView(message);
         } else {
-            showProgressDialog();
+            DialogUtils.showDialog(this,getString(R.string.default_loading_message));
             Location fromLocation = new Location(fromLatitude, fromLongitude);
             Location toLocation = new Location(toLatitude, toLongitude);
 
@@ -244,32 +237,23 @@ public class CreatePackageActivity extends AppCompatActivity {
         salaryCall.enqueue(new Callback<ComputeSalary>() {
             @Override
             public void onResponse(@NonNull Call<ComputeSalary> call, @NonNull Response<ComputeSalary> response) {
-                dialog.dismiss();
+                DialogUtils.dismissDialog();
                 if (response.isSuccessful()&& response.body()!=null) {
-                    Log.i("mytag", "response is successful, salary is " + response.body().getSalary());
-
+                    //response is successful
                     salary = response.body().getSalary();
                     displayPackageSummary();
                 }else {
-                    alertView("Distance should be greater than 2 Km");
+                    //if there is error it must be that distance should be more than 2 Km
+                    alertView(getString(R.string.distance_error_message));
                 }
             }
 
             @Override
             public void onFailure(Call<ComputeSalary> call, Throwable t) {
-                dialog.dismiss();
+                DialogUtils.dismissDialog();
                 Toast.makeText(CreatePackageActivity.this, "some thing went wrong, please try agian", Toast.LENGTH_SHORT).show();
-                Log.i("mytag", "failed "+t);
             }
         });
-    }
-
-    private void showProgressDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setView(R.layout.progress);
-        dialog = builder.create();
-        dialog.setCancelable(false);
-        dialog.show();
     }
 
     private void alertView(String message) {

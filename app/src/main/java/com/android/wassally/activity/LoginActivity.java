@@ -1,7 +1,6 @@
 package com.android.wassally.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
+import com.android.wassally.helpers.DialogUtils;
 import com.android.wassally.model.Login;
 import com.android.wassally.networkUtils.UserClient;
 
@@ -32,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailEditText ;
     private EditText mPasswordEditText ;
-    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,63 +56,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
-    }
-
-    /**
-     * send login request to the server using retrofit
-     * @param login object consist of username or email and password
-     */
-
-    private void sendLoginRequest(Login login){
-
-        // create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-
-        //get client and call object for the request
-        UserClient client = retrofit.create(UserClient.class);
-        Call<Login> loginCall = client.signIn(login);
-
-        loginCall.enqueue(new Callback<Login>() {
-            @Override
-            public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
-                dialog.dismiss();
-
-                if (response.isSuccessful() && response.body()!=null) {
-                    // extract basic user info name + auth token
-                    String token = response.body().getToken();
-                    String firstName = response.body().getFirstName();
-                    String lastName = response.body().getLastName();
-                    String fullName = firstName+" "+lastName;
-
-                    //save this token to sharedPreferences in order not to login every time when user lunch the app
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                    preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
-                    preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
-
-                    Toast.makeText(LoginActivity.this, "successful login", Toast.LENGTH_SHORT).show();
-
-                    // start home activity
-                    Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
-                    startActivity(loadHome);
-                    finish();
-                }else {
-                    //password or username is incorrect
-                    alertView();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Login> call, Throwable t) {
-                dialog.dismiss();
-                Toast.makeText(LoginActivity.this,"Login Failed ",Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     /**
@@ -122,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-
     private void attemptLogin(){
 
         // Reset errors.
@@ -155,15 +98,74 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(R.layout.progress);
-            dialog = builder.create();
-            dialog.setCancelable(false);
-            dialog.show();
-
+            DialogUtils.showDialog(this,getString(R.string.login_progress_message));
             Login login = new Login(email,password);
             sendLoginRequest(login);
         }
+    }
+
+    /**
+     * send login request to the server using retrofit
+     * @param login object consist of (username or email) and password
+     */
+    private void sendLoginRequest(Login login){
+
+        // create retrofit instance
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+
+        //get client and call object for the request
+        UserClient client = retrofit.create(UserClient.class);
+        Call<Login> loginCall = client.signIn(login);
+
+        loginCall.enqueue(new Callback<Login>() {
+            @Override
+            public void onResponse(@NonNull Call<Login> call,@NonNull Response<Login> response) {
+                DialogUtils.dismissDialog();
+                if (response.isSuccessful() && response.body()!=null) {
+                    //user is authorized
+                    startHomeActivity(response);
+                }else {
+                    //password or username is incorrect
+                    alertView();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Login> call, Throwable t) {
+                DialogUtils.dismissDialog();
+                Toast.makeText(LoginActivity.this,"Login Failed, check network connection ",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    /**
+     * after making successful network call to server
+     * start the app by displaying home activity and finish this one
+     * @param response the result of successful network call: Login object that contains basic user info
+     */
+    private void startHomeActivity(@NonNull Response<Login> response) {
+        // extract basic user info name + auth token
+        assert response.body() != null;
+        String token = response.body().getToken();
+        String firstName = response.body().getFirstName();
+        String lastName = response.body().getLastName();
+        String fullName = firstName+" "+lastName;
+
+        //save this token to sharedPreferences in order not to login every time when user lunch the app
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
+        preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
+
+        Toast.makeText(LoginActivity.this, "welcome back "+firstName, Toast.LENGTH_SHORT).show();
+
+        // start home activity
+        Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);
+        startActivity(loadHome);
+        finish();
     }
 
     private void alertView() {
@@ -172,5 +174,4 @@ public class LoginActivity extends AppCompatActivity {
                 .setNegativeButton("Ok",null)
                 .show();
     }
-
 }

@@ -11,10 +11,12 @@
     <string name="other_sign_in_methods">or Sign in using </string>
     <string name="forget_passowrd">forgot password?</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">Password must contain at least 8 characters</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="login_error_message">Incorrect username or password </string>
+    <string name="login_progress_message">Logging in .. please wait</string>
+
 
     <!--Strings related to sign up activity-->
     <string name="first_name">First Name</string>
@@ -22,17 +24,24 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
-    <string name="number">Phone Number</string>
-    <string name="governate">Governate</string>
-    <string name="city">City</string>
+    <string name="phone_number">Phone Number</string>
     <string name="sign_up">Sign Up</string>
     <string name="privacy_note">By signing up you are agree to our Terms and Privacy policy</string>
     <string name="error_missing_first_name">enter your first name</string>
     <string name="error_missing_last_name">enter your last name</string>
     <string name="error_missing_email">enter a valid email address</string>
+    <string name="error_missing_username">username is required</string>
     <string name="error_missing_password">password is required </string>
-    <string name="error_missing_username">choose a unique username </string>
-    <string name="already_existing_username">this username already existed</string>
+    <string name="sign_up_prgress_message">Signing up .. please wait</string>
+
+
+    <!--my orders fragment strings-->
+    <string name="your_orders_will_be_displayed_here">Your orders will be displayed here</string>
+    <string name="get_started_by_creating_new_order">Get started by creating new order</string>
+    <string name="state_waiting_caption">Your package is successfully created , we\'ll be in touch with you soon</string>
+    <string name="state_pending_caption">Captain just took package from you , we\'ll inform you when he is ready to go</string>
+    <string name="state_on_way_caption">Captain is ready to go  , he is on way</string>
+    <string name="state_delivered_caption">Your package has been successfully delivered ,please give us your feed back </string>
 
     <!--navigation drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -60,9 +69,12 @@
     <string name="sender_phone_number">Sender phone Number</string>
     <string name="enter_receiver_phone_number">Enter receiver phone number</string>
     <string name="enter_sender_phone_number">Enter sender phone number</string>
+    <string name="note">Note(optional)</string>
+    <string name="type_your_note_here">Type your note here</string>
     <string name="package_weight">Package weight</string>
     <string name="shipped_by_hint">Coming soon : you will be able to choose to deliver your package by another app user (the captain)</string>
     <string name="new_order">New Order</string>
+    <string name="distance_error_message">Distance should be greater than 2 Km</string>
 
     <!--permission activity-->
     <string name="location_permission">Location permission</string>
@@ -75,18 +87,12 @@
     <string name="service_not_available">service not available ..check network connection</string>
     <string name="no_address_found">No address found</string>
     <string name="address_found">address found</string>
-    <string name="note">Note</string>
-    <string name="type_your_note_here">Type your note here</string>
+
+    <!--orderSummary activity-->
     <string name="salary">Salary</string>
     <string name="salary_hint">This delivery will cost you :</string>
-    <string name="your_orders_will_be_displayed_here">Your orders will be displayed here</string>
-    <string name="get_started_by_creating_new_order">Get started by creating new order</string>
-
-    <string name="state_waiting_caption">Your package is successfully created , we\'ll be in touch with you soon</string>
-    <string name="state_pending_caption">Captain just took package from you , we\'ll inform you when he is ready to go</string>
-    <string name="state_on_way_caption">Captain is ready to go  , he is on way</string>
-    <string name="state_delivered_caption">Your package has been successfully delivered ,please give us your feed back </string>
-    <string name="phone_number">Phone Number</string>
+    <string name="default_loading_message">Loading.. please wait</string>
+    <string name="creating_order_loading_message">Creating new order..please wait</string>
 
 
 </resources>
