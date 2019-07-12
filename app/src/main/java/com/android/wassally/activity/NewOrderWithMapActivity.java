@@ -115,8 +115,9 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
         mProgressBar = findViewById(R.id.progress_bar);
         mSmallPinIv = findViewById(R.id.small_pin);
 
-        //receive intent from create package activity
         Intent intent = getIntent();
+
+        //receive intent from create package activity
         if (intent.hasExtra(Constants.LOCATION_REQUEST_KEY)) {
             int locationRequestCode = intent.getIntExtra(Constants.LOCATION_REQUEST_KEY, 1);
             if (locationRequestCode == Constants.PICKUP_LOCATION_REQUEST) {
@@ -124,6 +125,10 @@ public class NewOrderWithMapActivity extends Activity implements OnMapReadyCallb
             } else {
                 subimtLocationButton.setText("Confirm destination");
             }
+        }
+        //receive intent from editProfile activity to add user address
+        if(intent.hasExtra(Constants.GET_USER_ADDRESS)){
+            subimtLocationButton.setText("This is my Address");
         }
 
 

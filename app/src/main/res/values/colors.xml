@@ -9,4 +9,8 @@
     <color name="colorErrorMessage">#ff0d00</color>
     <color name="colorHeaderPendingPackage">#2d41af</color>
     <color name="cardBackground">#FF1B1720</color>
+
+    <color name="colorCivBorder">#FFFF6D58</color>
+    <color name="colorSaveUpdates">#00812f</color>
+
 </resources>

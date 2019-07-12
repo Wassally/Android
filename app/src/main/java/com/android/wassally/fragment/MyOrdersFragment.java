@@ -127,8 +127,8 @@ public class MyOrdersFragment extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.my_orders_menu,menu);
-    }
+    }*/
 }

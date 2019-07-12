@@ -1,16 +1,19 @@
 package com.android.wassally.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.android.wassally.model.Addresses.Address;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
-public class User {
+public class User implements Parcelable {
     @SerializedName("id")
     private Integer id;
-
     @SerializedName("auth_token")
     private String token;
-
     @SerializedName ("email")
     private String email;
     @SerializedName("username")
@@ -23,36 +26,28 @@ public class User {
     private boolean isCaptain;
     @SerializedName ("is_client")
     private boolean isClient;
-    @SerializedName("governate")
-    private String governate;
-    @SerializedName("city")
-
-    private String city;
     @SerializedName ("phone_number")
     private String phoneNumber;
-    @SerializedName("captain")
-    @Expose(serialize = false, deserialize = false)
-    private String [] captain;
+    @SerializedName("user_addresses")
+    private List<Address> addresses;
     @SerializedName("image")
-    @Expose(serialize = false, deserialize = false)
     private String image;
 
-    public User(Integer id, String token, String email, String username, String firstName,
-                String lastName, boolean isCaptain, boolean isClient, String governate, String city,
-                String phoneNumber, String[] captain, String image) {
-        this.id = id;
-        this.token = token;
+    public User(String email, String username, String firstName, String lastName, String phoneNumber, String image) {
         this.email = email;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.isCaptain = isCaptain;
-        this.isClient = isClient;
-        this.governate = governate;
-        this.city = city;
         this.phoneNumber = phoneNumber;
-        this.captain = captain;
         this.image = image;
+    }
+
+    public User(String email, String username, String firstName, String lastName, String phoneNumber) {
+        this.email = email;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
     }
 
     /** setter **/
@@ -89,26 +84,17 @@ public class User {
         isClient = client;
     }
 
-    public void setGovernate(String governate) {
-        this.governate = governate;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setCaptain(String[] captain) {
-        this.captain = captain;
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     /** getter **/
 
@@ -144,23 +130,72 @@ public class User {
         return isClient;
     }
 
-    public String getGovernate() {
-        return governate;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public String[] getCaptain() {
-        return captain;
-    }
-
     public String getImage() {
         return image;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    private User(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        token = in.readString();
+        email = in.readString();
+        username = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        isCaptain = in.readByte() != 0;
+        isClient = in.readByte() != 0;
+        phoneNumber = in.readString();
+        addresses = in.createTypedArrayList(Address.CREATOR);
+        image = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(token);
+        dest.writeString(email);
+        dest.writeString(username);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeByte((byte) (isCaptain ? 1 : 0));
+        dest.writeByte((byte) (isClient ? 1 : 0));
+        dest.writeString(phoneNumber);
+        dest.writeTypedList(addresses);
+        dest.writeString(image);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

@@ -22,13 +22,11 @@
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -41,9 +39,9 @@
         <activity
             android:name=".activity.SignUpActivity"
             android:theme="@style/loginTheme">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activity.LoginActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.LoginActivity" />
         </activity>
         <activity
             android:name=".activity.PermissionActivity"
@@ -67,10 +65,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ClientHomeActivity" />
         </activity>
-        <activity android:name=".activity.ProfileActivity" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.PackageSummaryActivity"
-            android:label="Package summary">
+            android:label="Package summary"></activity>
+        <activity android:name=".activity.EditProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 
