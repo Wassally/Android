@@ -1,8 +1,6 @@
 package com.android.wassally.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +12,8 @@ import android.widget.Toast;
 import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.helpers.DialogUtils;
+import com.android.wassally.helpers.NetworkUtils;
+import com.android.wassally.helpers.PreferenceUtils;
 import com.android.wassally.model.Order;
 import com.android.wassally.networkUtils.UserClient;
 
@@ -21,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PackageSummaryActivity extends AppCompatActivity {
     private TextView mToLocationTextView;
@@ -87,14 +86,10 @@ public class PackageSummaryActivity extends AppCompatActivity {
 
     private void sendCreatePackageRequest(Order order){
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PackageSummaryActivity.this);
-        String token = "Token "+preferences.getString(Constants.AUTH_TOKEN,"");
+        String token = PreferenceUtils.getToken(this);
 
         //create retrofit instance
-         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit =builder.build();
+        Retrofit retrofit = NetworkUtils.createRetrofitInstance();
         UserClient client = retrofit.create(UserClient.class);
         Call<Order> orderCall = client.createNewPackage(order,token);
 

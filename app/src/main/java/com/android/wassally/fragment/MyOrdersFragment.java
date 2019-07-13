@@ -24,6 +24,7 @@ import com.android.wassally.R;
 import com.android.wassally.activity.ClientHomeActivity;
 import com.android.wassally.activity.PackageSummaryActivity;
 import com.android.wassally.adapter.OrdersAdapter;
+import com.android.wassally.helpers.NetworkUtils;
 import com.android.wassally.model.Addresses.Address;
 import com.android.wassally.model.Addresses.Location;
 import com.android.wassally.model.Addresses.PackageAddress;
@@ -78,7 +79,6 @@ public class MyOrdersFragment extends Fragment {
 
         getMyOrders();
 
-
         return rootView;
     }
 
@@ -87,10 +87,7 @@ public class MyOrdersFragment extends Fragment {
         String token = "Token "+preferences.getString(Constants.AUTH_TOKEN,"");
 
         //create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit =builder.build();
+        Retrofit retrofit =NetworkUtils.createRetrofitInstance();
         UserClient client = retrofit.create(UserClient.class);
         Call<List<Order>> ordersCall = client.getMyOrders(token);
         ordersCall.enqueue(new Callback<List<Order>>() {

@@ -93,6 +93,8 @@
     <string name="salary_hint">This delivery will cost you :</string>
     <string name="default_loading_message">Loading.. please wait</string>
     <string name="creating_order_loading_message">Creating new order..please wait</string>
+    <string name="welcome_back">welcome back </string>
+    <string name="welcome">welcome </string>
 
 
 </resources>

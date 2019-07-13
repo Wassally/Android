@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
+import com.android.wassally.helpers.NetworkUtils;
+import com.android.wassally.helpers.PreferenceUtils;
 import com.android.wassally.model.User;
 import com.android.wassally.networkUtils.UserClient;
 import com.squareup.picasso.Picasso;
@@ -22,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -63,14 +64,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void getUserInfo() {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String token = "Token " + preferences.getString(Constants.AUTH_TOKEN, "");
+        String token = PreferenceUtils.getToken(this);
 
         // create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
+        Retrofit retrofit = NetworkUtils.createRetrofitInstance();
 
         //get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);

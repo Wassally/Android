@@ -1,6 +1,5 @@
 package com.android.wassally.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.helpers.DialogUtils;
+import com.android.wassally.helpers.NetworkUtils;
 import com.android.wassally.model.Addresses.Address;
 import com.android.wassally.model.Addresses.Location;
 import com.android.wassally.model.Addresses.PackageAddress;
@@ -33,7 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreatePackageActivity extends AppCompatActivity {
     //views
@@ -226,12 +224,10 @@ public class CreatePackageActivity extends AppCompatActivity {
 
     private void getExpectedSalary(ComputeSalary computeSalary) {
         //create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit2 = builder.build();
 
-        UserClient client = retrofit2.create(UserClient.class);
+        Retrofit retrofit = NetworkUtils.createRetrofitInstance();
+
+        UserClient client = retrofit.create(UserClient.class);
         Call<ComputeSalary> salaryCall = client.getExpectedSalary(computeSalary);
 
         salaryCall.enqueue(new Callback<ComputeSalary>() {

@@ -1,8 +1,6 @@
 package com.android.wassally.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.helpers.DialogUtils;
 import com.android.wassally.helpers.ErrorUtils;
+import com.android.wassally.helpers.NetworkUtils;
+import com.android.wassally.helpers.PreferenceUtils;
 import com.android.wassally.model.ApiError;
 import com.android.wassally.model.SignUP;
 import com.android.wassally.model.User;
@@ -27,14 +26,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
-    //create retrofit instance
-    private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create());
-    public static Retrofit retrofit = builder.build();
+
+    public static Retrofit retrofit = NetworkUtils.createRetrofitInstance();
 
     private EditText mFirstNameEt;
     private EditText mLastNameEt;
@@ -194,11 +189,10 @@ public class SignUpActivity extends AppCompatActivity {
         String fullName = firstName + " " + lastName;
 
         //save this token to sharedPreferences in order not to login every time user lunch the app
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
-        preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
-        preferences.edit().putString(Constants.FULL_NAME, fullName).apply();
+        PreferenceUtils.setToken(token,this);
+        PreferenceUtils.setFullName(fullName,this);
 
-        Toast.makeText(SignUpActivity.this, "welcome "+firstName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUpActivity.this, getString(R.string.welcome)+firstName, Toast.LENGTH_SHORT).show();
 
         //open home activity
         Intent homeIntent = new Intent(SignUpActivity.this, ClientHomeActivity.class);

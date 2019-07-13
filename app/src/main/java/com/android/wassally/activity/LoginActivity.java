@@ -2,8 +2,6 @@ package com.android.wassally.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,9 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.helpers.DialogUtils;
+import com.android.wassally.helpers.NetworkUtils;
+import com.android.wassally.helpers.PreferenceUtils;
 import com.android.wassally.model.Login;
 import com.android.wassally.networkUtils.UserClient;
 
@@ -25,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -111,10 +109,7 @@ public class LoginActivity extends AppCompatActivity {
     private void sendLoginRequest(Login login){
 
         // create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
+        Retrofit retrofit = NetworkUtils.createRetrofitInstance();
 
         //get client and call object for the request
         UserClient client = retrofit.create(UserClient.class);
@@ -156,11 +151,10 @@ public class LoginActivity extends AppCompatActivity {
         String fullName = firstName+" "+lastName;
 
         //save this token to sharedPreferences in order not to login every time when user lunch the app
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        preferences.edit().putString(Constants.AUTH_TOKEN, token).apply();
-        preferences.edit().putString(Constants.FULL_NAME,fullName).apply();
+        PreferenceUtils.setFullName(fullName,this);
+        PreferenceUtils.setToken(token,this);
 
-        Toast.makeText(LoginActivity.this, "welcome back "+firstName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, getString(R.string.welcome_back)+firstName, Toast.LENGTH_SHORT).show();
 
         // start home activity
         Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);

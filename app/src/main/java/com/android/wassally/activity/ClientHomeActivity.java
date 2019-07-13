@@ -20,6 +20,7 @@ import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.fragment.HistoryFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
+import com.android.wassally.helpers.PreferenceUtils;
 
 public class ClientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -97,8 +98,7 @@ public class ClientHomeActivity extends AppCompatActivity
      **/
     private void populateNavHeaderData() {
         TextView mClientNameTextView = mHeader.findViewById(R.id.header_client_name_tv);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ClientHomeActivity.this);
-        String fullName = preferences.getString(Constants.FULL_NAME, "");
+        String fullName = PreferenceUtils.getFullName(this);
         mClientNameTextView.setText(fullName);
 
         mClientNameTextView.setOnClickListener(new View.OnClickListener() {
