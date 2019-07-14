@@ -1,12 +1,12 @@
 package com.android.wassally.fragment;
 
 
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.wassally.R;
@@ -43,7 +42,7 @@ public class MyOrdersFragment extends Fragment {
     private CardView noInternetCard;
 
     private OrdersAdapter adapter;
-    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public MyOrdersFragment() {
@@ -64,11 +63,9 @@ public class MyOrdersFragment extends Fragment {
         emptyCard = rootView.findViewById(R.id.empty_cardView);
         noInternetCard = rootView.findViewById(R.id.no_internet_cardView);
         Button tryAgainBtn = rootView.findViewById(R.id.try_again_btn);
-
-
-        progressBar = rootView.findViewById(R.id.progress);
-
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh);
         RecyclerView recyclerView =rootView.findViewById(R.id.rv_orders);
+
         adapter = new OrdersAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
@@ -81,6 +78,21 @@ public class MyOrdersFragment extends Fragment {
         tryAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkNetworkConnection();
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark
+                );
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.setOrdersData(null);
+                swipeRefreshLayout.setRefreshing(true);
                 checkNetworkConnection();
             }
         });
@@ -113,7 +125,7 @@ public class MyOrdersFragment extends Fragment {
     }
 
     private void getMyOrders() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
         String token = "Token "+PreferenceUtils.getToken(getContext());
 
         //create retrofit instance
@@ -123,7 +135,7 @@ public class MyOrdersFragment extends Fragment {
         ordersCall.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
-                progressBar.setVisibility(View.INVISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful() && response.body()!=null){
                     adapter.setOrdersData(response.body());
                     if(adapter.getItemCount()==0){
@@ -140,7 +152,6 @@ public class MyOrdersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
-                progressBar.setVisibility(View.INVISIBLE);
                 noInternetCard.setVisibility(View.VISIBLE);
 
                 Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout),"Check network connection",Snackbar.LENGTH_LONG);

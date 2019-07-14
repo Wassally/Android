@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,32 +7,31 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.wassally.fragment.MyOrdersFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_orders"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.CardView
         android:id="@+id/empty_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
+        android:layout_centerInParent="true"
         android:layout_margin="14dp"
         android:elevation="4dp"
-        app:contentPadding="5dp"
+        android:visibility="invisible"
         app:cardCornerRadius="3dp"
         app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:contentPadding="5dp">
 
 
         <LinearLayout
@@ -44,10 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/orders_empty" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height=".5dp"
-                android:background="@android:color/darker_gray"/>
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -74,14 +74,14 @@
         android:id="@+id/no_internet_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:layout_margin="14dp"
         android:elevation="4dp"
-        app:contentPadding="5dp"
+        android:visibility="visible"
         app:cardCornerRadius="3dp"
         app:cardElevation="4dp"
-        android:visibility="visible"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:contentPadding="5dp">
 
 
         <LinearLayout
@@ -119,16 +119,15 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:padding="2dp"
                 android:background="@drawable/edit_profile_bg"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorAccent"
+                android:padding="2dp"
                 android:text="retry"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-</FrameLayout>
+</RelativeLayout>

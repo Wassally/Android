@@ -74,7 +74,6 @@ public class SignUpActivity extends AppCompatActivity {
         mUserNameEt.setError(null);
         mPhoneNumberEt.setError(null);
 
-
         // Store values at the time of the sign up attempt.
         String firstName = mFirstNameEt.getText().toString();
         String lastName = mLastNameEt.getText().toString();
