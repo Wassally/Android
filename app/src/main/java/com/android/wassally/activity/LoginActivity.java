@@ -2,6 +2,7 @@ package com.android.wassally.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -96,9 +97,18 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            DialogUtils.showDialog(this,getString(R.string.login_progress_message));
-            Login login = new Login(email,password);
-            sendLoginRequest(login);
+            // check for network state
+            boolean isConnected = NetworkUtils.checkNetWorkConnectivity(this);
+
+            // if connected start the network call
+            if(isConnected) {
+                DialogUtils.showDialog(this, getString(R.string.login_progress_message));
+
+                Login login = new Login(email, password);
+                sendLoginRequest(login);
+            }else {
+                Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -154,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         PreferenceUtils.setFullName(fullName,this);
         PreferenceUtils.setToken(token,this);
 
-        Toast.makeText(LoginActivity.this, getString(R.string.welcome_back)+firstName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, getString(R.string.welcome_back)+" "+firstName, Toast.LENGTH_SHORT).show();
 
         // start home activity
         Intent loadHome = new Intent(LoginActivity.this, ClientHomeActivity.class);

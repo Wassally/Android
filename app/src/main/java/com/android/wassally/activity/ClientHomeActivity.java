@@ -1,7 +1,9 @@
 package com.android.wassally.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +23,8 @@ import com.android.wassally.R;
 import com.android.wassally.fragment.HistoryFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
 import com.android.wassally.helpers.PreferenceUtils;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class ClientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

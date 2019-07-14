@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void getUserInfo() {
 
-        String token = PreferenceUtils.getToken(this);
+        String token = "Token "+PreferenceUtils.getToken(this);
 
         // create retrofit instance
         Retrofit retrofit = NetworkUtils.createRetrofitInstance();

@@ -10,7 +10,7 @@ public class PreferenceUtils {
 
     public static String getToken(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return  "Token " + preferences.getString(Constants.AUTH_TOKEN, "");
+        return preferences.getString(Constants.AUTH_TOKEN, "");
     }
 
     public static String getFullName(Context context){

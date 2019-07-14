@@ -93,8 +93,11 @@
     <string name="salary_hint">This delivery will cost you :</string>
     <string name="default_loading_message">Loading.. please wait</string>
     <string name="creating_order_loading_message">Creating new order..please wait</string>
-    <string name="welcome_back">welcome back </string>
+    <string name="welcome_back">welcome back</string>
     <string name="welcome">welcome </string>
+    <string name="no_internet_connection">No Internet connection!</string>
+    <string name="oh_no">Oh no!</string>
+    <string name="no_internet_found_check_your_connection">No Internet found. Check your connection or try again</string>
 
 
 </resources>

@@ -224,7 +224,6 @@ public class CreatePackageActivity extends AppCompatActivity {
 
     private void getExpectedSalary(ComputeSalary computeSalary) {
         //create retrofit instance
-
         Retrofit retrofit = NetworkUtils.createRetrofitInstance();
 
         UserClient client = retrofit.create(UserClient.class);

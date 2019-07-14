@@ -137,11 +137,18 @@ public class SignUpActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }else {
-            DialogUtils.showDialog(this, getString(R.string.sign_up_prgress_message));
+            // everything is ready but ..
+            // check network connectivity before sending any network calls
+            boolean isConnected = NetworkUtils.checkNetWorkConnectivity(this);
+            if(isConnected) {
+                DialogUtils.showDialog(this, getString(R.string.sign_up_prgress_message));
 
-            SignUP signUP = new SignUP(firstName, lastName, email, username, password,
-                    phoneNumber,true,false);
-            sendSignUpNetworkRequest(signUP);
+                SignUP signUP = new SignUP(firstName, lastName, email, username, password,
+                        phoneNumber, true, false);
+                sendSignUpNetworkRequest(signUP);
+            }else {
+                Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

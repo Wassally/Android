@@ -1,44 +1,38 @@
 package com.android.wassally.fragment;
 
 
-import android.content.SharedPreferences;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.wassally.Constants;
 import com.android.wassally.R;
 import com.android.wassally.activity.ClientHomeActivity;
-import com.android.wassally.activity.PackageSummaryActivity;
 import com.android.wassally.adapter.OrdersAdapter;
 import com.android.wassally.helpers.NetworkUtils;
-import com.android.wassally.model.Addresses.Address;
-import com.android.wassally.model.Addresses.Location;
-import com.android.wassally.model.Addresses.PackageAddress;
+import com.android.wassally.helpers.PreferenceUtils;
 import com.android.wassally.model.Order;
 import com.android.wassally.networkUtils.UserClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +40,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyOrdersFragment extends Fragment {
 
     private CardView emptyCard;
+    private CardView noInternetCard;
+
     private OrdersAdapter adapter;
     private ProgressBar progressBar;
 
@@ -66,6 +62,9 @@ public class MyOrdersFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my_orders, container, false);
 
         emptyCard = rootView.findViewById(R.id.empty_cardView);
+        noInternetCard = rootView.findViewById(R.id.no_internet_cardView);
+        Button tryAgainBtn = rootView.findViewById(R.id.try_again_btn);
+
 
         progressBar = rootView.findViewById(R.id.progress);
 
@@ -77,14 +76,45 @@ public class MyOrdersFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        getMyOrders();
+        checkNetworkConnection();
+
+        tryAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkNetworkConnection();
+            }
+        });
 
         return rootView;
     }
 
+    /**
+     * before sending any network call it's better to check for network connection first
+     * if there is no internet available display simple card view to inform user that there is no internet connection
+     * with button to perform refresh or retry
+     */
+
+    private void checkNetworkConnection() {
+        boolean isConnected = NetworkUtils.checkNetWorkConnectivity(getContext());
+        if (isConnected){
+            noInternetCard.setVisibility(View.INVISIBLE);
+            getMyOrders();
+        }else {
+            noInternetCard.setVisibility(View.VISIBLE);
+            final Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout),"No Internet connection",Snackbar.LENGTH_LONG);
+            snackbar.setAction("Dismiss", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+    }
+
     private void getMyOrders() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String token = "Token "+preferences.getString(Constants.AUTH_TOKEN,"");
+        progressBar.setVisibility(View.VISIBLE);
+        String token = "Token "+PreferenceUtils.getToken(getContext());
 
         //create retrofit instance
         Retrofit retrofit =NetworkUtils.createRetrofitInstance();
@@ -102,6 +132,7 @@ public class MyOrdersFragment extends Fragment {
                         emptyCard.setVisibility(View.INVISIBLE);
                     }
                 }else{
+
                     Toast.makeText(getContext(), "error getting packages", Toast.LENGTH_SHORT).show();
                 }
 
@@ -110,9 +141,10 @@ public class MyOrdersFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "some thing went wrong please try again!", Toast.LENGTH_SHORT).show();
-                Log.e("mytag","some thing went wrong while getting orders"+t);
+                noInternetCard.setVisibility(View.VISIBLE);
 
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout),"Check network connection",Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 

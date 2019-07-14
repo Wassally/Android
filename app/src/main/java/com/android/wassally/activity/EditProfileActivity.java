@@ -143,7 +143,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void updateProfile(User user){
 
-        String token = PreferenceUtils.getToken(this);
+        String token = "Token "+PreferenceUtils.getToken(this);
 
         // create retrofit instance
         Retrofit retrofit = NetworkUtils.createRetrofitInstance();

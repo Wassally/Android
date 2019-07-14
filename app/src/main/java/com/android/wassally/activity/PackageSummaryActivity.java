@@ -86,7 +86,7 @@ public class PackageSummaryActivity extends AppCompatActivity {
 
     private void sendCreatePackageRequest(Order order){
 
-        String token = PreferenceUtils.getToken(this);
+        String token = "Token "+PreferenceUtils.getToken(this);
 
         //create retrofit instance
         Retrofit retrofit = NetworkUtils.createRetrofitInstance();
