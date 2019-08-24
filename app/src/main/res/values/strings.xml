@@ -99,5 +99,11 @@
     <string name="oh_no">Oh no!</string>
     <string name="no_internet_found_check_your_connection">No Internet found. Check your connection or try again</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_waiting_orders">you don\'t have any waiting orders</string>
+    <string name="no_pending_orders">You don\'t have any pending orders</string>
+    <string name="no_on_way_orders">You don\'t have on way orders</string>
+
 
 </resources>

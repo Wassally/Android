@@ -67,9 +67,8 @@ public class Order implements Parcelable {
         this.packageAddress = packageAddress;
     }
 
-    public Order(String receiverName, PackageAddress packageAddress, String state, String createdAt) {
+    public Order(String receiverName, String state, String createdAt) {
         this.receiverName = receiverName;
-        this.packageAddress = packageAddress;
         this.state = state;
         this.createdAt = createdAt;
     }

@@ -36,6 +36,11 @@ public final class Constants {
     public static final String USER_EXTRA = PACKAGE_NAME +".USER_EXTRA" ;
     public static final String GET_USER_ADDRESS =PACKAGE_NAME+".GERT_USER_ADDRESS" ;
 
+    public static final int DISPLAY_STATE_NO_INTERNET = -1;
+    public static final int DISPLAY_STATE_ORDERS_OK = 0;
+    public static final int DISPLAY_STATE_ALL_ORDERS_EMPTY = 1;
+    public static final int DISPLAY_STATE_FILTER_ORDERS_EMPTY = 2;
+
 
 
 }

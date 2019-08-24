@@ -1,13 +1,12 @@
 package com.android.wassally.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,14 +23,11 @@ import com.android.wassally.fragment.HistoryFragment;
 import com.android.wassally.fragment.MyOrdersFragment;
 import com.android.wassally.helpers.PreferenceUtils;
 
-import static android.support.v4.content.ContextCompat.getSystemService;
-
 public class ClientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawer;
     private View mHeader;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +38,9 @@ public class ClientHomeActivity extends AppCompatActivity
         //use our toolBar as the action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_filter));
+
 
         drawer = findViewById(R.id.drawer_layout);
         //Handle menu icon at the top left to open and close the drawer with simple animation

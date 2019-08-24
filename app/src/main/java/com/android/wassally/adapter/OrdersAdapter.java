@@ -19,6 +19,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     private List<Order> mOrders;
     private Context context;
 
+    private ListItemClickListener listItemClickListener;
+
     /**
      * The interface that receives onClick messages.
      */
@@ -26,13 +28,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         void onListItemClick(Order clickedOrder);
     }
 
-    public OrdersAdapter(Context context) {
+    public OrdersAdapter(Context context,ListItemClickListener listener) {
         this.context = context;
+        this.listItemClickListener = listener;
 
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mStateImageView;
         private TextView mStateTextView;
         private TextView mStateCaptionTextView;
@@ -50,20 +53,21 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             mToLocationTextView = itemView.findViewById(R.id.list_item_to_location_tv);
             mToNameTextView = itemView.findViewById(R.id.list_item_to_name_tv);
             mCreatedAtTextView = itemView.findViewById(R.id.list_item_created_at_tv);
-           // itemView.setOnClickListener(this);
+
+            itemView.setOnClickListener(this);
 
         }
         /**
          * Called whenever a user clicks on an item in the list.
          * @param view The View that was clicked
-
+         */
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
             Order clickedItem = mOrders.get(clickedPosition);
-            //mOnClickListener.onListItemClick(clickedItem);
+            listItemClickListener.onListItemClick(clickedItem);
         }
-    */
+
     }
     @NonNull
     @Override

@@ -9,8 +9,6 @@ import com.android.wassally.Constants;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.support.v4.content.ContextCompat.getSystemService;
-
 public class NetworkUtils {
 
     public static Retrofit createRetrofitInstance() {
@@ -18,15 +16,14 @@ public class NetworkUtils {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
+
         return builder.build();
     }
 
     public static boolean checkNetWorkConnectivity(Context context) {
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         // Get details on the currently active default data network
-
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         return (networkInfo != null && networkInfo.isConnected());

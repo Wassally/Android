@@ -1,6 +1,7 @@
 package com.android.wassally.activity;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.android.wassally.Constants;
 import com.android.wassally.R;
+import com.android.wassally.databinding.ActivityPackageSummaryBinding;
 import com.android.wassally.helpers.DialogUtils;
 import com.android.wassally.helpers.NetworkUtils;
 import com.android.wassally.helpers.PreferenceUtils;
@@ -23,16 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PackageSummaryActivity extends AppCompatActivity {
-    private TextView mToLocationTextView;
-    private TextView mToNumberTextView;
-    private TextView mToNameTextView;
-    private TextView mFromLocationTextView;
-    private TextView mFromNumberTextView;
-    private TextView mWeightTextView;
-    private TextView mDurationTextView;
-    private TextView mNoteTextView;
-    private TextView mSubmitOrderButton;
-    private TextView mSalaryTextView;
+    private ActivityPackageSummaryBinding binding;
 
     private Order order;
 
@@ -41,42 +34,48 @@ public class PackageSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package_summary);
 
-        mFromLocationTextView =findViewById(R.id.tv_from_location);
-        mFromNumberTextView = findViewById(R.id.tv_from_number);
-        mToLocationTextView = findViewById(R.id.tv_to_location);
-        mToNameTextView = findViewById(R.id.tv_to_name);
-        mToNumberTextView = findViewById(R.id.tv_to_number);
-        mWeightTextView =findViewById(R.id.tv_weight);
-        mDurationTextView = findViewById(R.id.tv_duration);
-        mNoteTextView = findViewById(R.id.tv_note);
-        mSubmitOrderButton = findViewById(R.id.submit_order_btn);
-        mSalaryTextView = findViewById(R.id.tv_salary);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_package_summary);
 
         Intent intent = getIntent();
         if(intent.hasExtra(Constants.SALARY_EXTRA)){
-            mSalaryTextView.setText(String.valueOf(intent.getDoubleExtra(Constants.SALARY_EXTRA,0)));
+            binding.tvSalary.setText(String.valueOf(intent.getDoubleExtra(Constants.SALARY_EXTRA,0)));
         }
         if (intent.hasExtra(Constants.ORDER_EXTRA)){
             order = intent.getParcelableExtra(Constants.ORDER_EXTRA);
+            binding.setOrder(order);
+        }
+        if (intent.hasExtra("display_details_only")){
+            binding.submitOrderBtn.setVisibility(View.GONE);
+            binding.salaryCv.setVisibility(View.GONE);
+            binding.packageStateCv.setVisibility(View.VISIBLE);
 
-            mToNameTextView.setText(order.getReceiverName());
-            mToLocationTextView.setText(order.getPackageAddress().getToAddress().getFormatedAddress());
-            mFromLocationTextView.setText(order.getPackageAddress().getFromAddress().getFormatedAddress());
-            mToNumberTextView.setText(order.getReceiverPhoneNumber());
-            mFromNumberTextView.setText(order.getSenderPhoneNumber());
-            mToNameTextView.setText(order.getReceiverName());
-            mWeightTextView.setText(String.valueOf(order.getWeight()));
-            mDurationTextView.setText(String.valueOf(order.getDuration()));
-            mNoteTextView.setText(order.getNote());
+            String state = order.getState();
+            int resImgState = R.drawable.state_waiting;
+            int resStateCaption = R.string.state_waiting_caption;
 
+            switch (state){
+                case "pending":
+                    resImgState = R.drawable.state_pending;
+                    resStateCaption = R.string.state_pending_caption;
+                    break;
+                case "on_way":
+                    resImgState = R.drawable.state_on_way;
+                    resStateCaption = R.string.state_on_way_caption;
+                    break;
+                case "delivered":
+                    resImgState = R.drawable.state_delivered;
+                    resStateCaption = R.string.state_delivered_caption;
+                    break;
+            }
+            populatePackageState(resImgState,resStateCaption);
         }
 
-        mSubmitOrderButton.setOnClickListener(new View.OnClickListener() {
+        binding.submitOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (order != null) {
                     DialogUtils.showDialog(PackageSummaryActivity.this,getString(R.string.creating_order_loading_message));
-                    sendCreatePackageRequest(order);
+                    createNewOrder(order);
                 }else {
                     Toast.makeText(PackageSummaryActivity.this,"error with creating order",Toast.LENGTH_SHORT).show();
                 }
@@ -84,7 +83,7 @@ public class PackageSummaryActivity extends AppCompatActivity {
         });
     }
 
-    private void sendCreatePackageRequest(Order order){
+    private void createNewOrder(Order order){
 
         String token = "Token "+PreferenceUtils.getToken(this);
 
@@ -113,5 +112,10 @@ public class PackageSummaryActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void populatePackageState(int resImg , int resString){
+        binding.stateImage.setImageResource(resImg);
+        binding.stateCaption.setText(resString);
     }
 }

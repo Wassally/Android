@@ -1,257 +1,342 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none"
-    tools:context=".activity.PackageSummaryActivity">
 
-    <LinearLayout
+<layout>
+
+    <data>
+        <variable
+            name="order"
+            type="com.android.wassally.model.Order" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        tools:context=".activity.PackageSummaryActivity">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/cardBackground"
-            app:cardCornerRadius="@dimen/cardView_radius"
-            app:cardElevation="@dimen/cardView_elevation"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true">
+            android:layout_margin="16dp"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/package_state_cv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/colorAccent"
-                    android:layout_gravity="center"
-                    android:padding="8dp"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:text="@string/salary"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="14dp"
-                    android:gravity="center"
-                    android:text="@string/salary_hint"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:textColor="@android:color/holo_blue_light" />
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="14dp"
+                >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:padding="14dp">
-
-
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_salary"
+                        android:id="@+id/state_tv"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/note_background"
+                        android:padding="6dp"
+                        android:text="@{order.state}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorAccent"
+                        tools:text="waiting" />
+
+                    <ImageView
+                        android:id="@+id/state_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/note_background"
+                        android:padding="4dp"
+                        android:src="@drawable/state_waiting" />
+
+                    <TextView
+                        android:id="@+id/state_caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/black"
+                        tools:text="your package is successfully created , we'll be in touch with you soon " />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height=".5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/created_at_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="6dp"
+                        android:text="@{order.createdAt}"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/black"
+                        tools:text="25/12/2019" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/salary_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardBackground"
+                app:cardCornerRadius="@dimen/cardView_radius"
+                app:cardElevation="@dimen/cardView_elevation"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/colorAccent"
+                        android:padding="8dp"
+                        android:text="@string/salary"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="14dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/white"
-                        tools:text="50" />
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:text="@string/salary_hint"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                        android:textColor="@android:color/holo_blue_light" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="EGP"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/white" />
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="14dp">
+
+
+                        <TextView
+                            android:id="@+id/tv_salary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="14dp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/white"
+                            tools:text="50" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EGP"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="@dimen/cardCornerRadius"
-            app:cardElevation="@dimen/cardView_elevation"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
-            app:contentPaddingBottom="0dp">
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorHeaderPendingPackage"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="From"
-                    android:textColor="@color/white"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                <TextView
-                    android:id="@+id/tv_from_location"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_location"
-                    tools:text="Rehab Mall 2, Cairo Governorate, Egypt" />
-
-                <TextView
-                    android:id="@+id/tv_from_number"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_phone_"
-                    tools:text="01019965971" />
-            </LinearLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="@dimen/cardCornerRadius"
-            app:cardElevation="@dimen/cardView_elevation"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
-            app:contentPaddingBottom="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorHeaderPendingPackage"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="To"
-                    android:textColor="@color/white"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                <TextView
-                    android:id="@+id/tv_to_name"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_person"
-                    tools:text="Essam Mosbah" />
-
-                <TextView
-                    android:id="@+id/tv_to_location"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_location"
-                    tools:text="Rehab Mall 2, Cairo Governorate, Egypt" />
-
-                <TextView
-                    android:id="@+id/tv_to_number"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_phone_"
-                    tools:text="01019965971" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="@dimen/cardCornerRadius"
-            app:cardElevation="@dimen/cardView_elevation"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
-            app:contentPaddingBottom="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorHeaderPendingPackage"
-                    android:padding="8dp"
-                    android:gravity="center"
-                    android:text="Package"
-                    android:textColor="@color/white"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardElevation="@dimen/cardView_elevation"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_weight"
-                        style="@style/AppTheme.displayTextView"
-                        android:layout_width="wrap_content"
-                        android:drawableStart="@drawable/ic_weight"
-                        tools:text="5" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorHeaderPendingPackage"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="From"
+                        android:textColor="@color/white"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
                     <TextView
+                        android:id="@+id/tv_from_location"
                         style="@style/AppTheme.displayTextView"
-                        android:layout_width="wrap_content"
-                        android:text="Kg" />
+                        android:drawableStart="@drawable/ic_location"
+                        android:text="@{order.packageAddress.fromAddress.formatedAddress}"
+                        tools:text="Rehab Mall 2, Cairo Governorate, Egypt" />
+
+                    <TextView
+                        android:id="@+id/tv_from_number"
+                        style="@style/AppTheme.displayTextView"
+                        android:drawableStart="@drawable/ic_phone_"
+                        android:text="@{order.receiverPhoneNumber}"
+                        tools:text="01019965971" />
                 </LinearLayout>
 
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardElevation="@dimen/cardView_elevation"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_duration"
-                        style="@style/AppTheme.displayTextView"
-                        android:layout_width="wrap_content"
-                        android:drawableStart="@drawable/ic_time"
-                        tools:text="5" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorHeaderPendingPackage"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="To"
+                        android:textColor="@color/white"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
                     <TextView
+                        android:id="@+id/tv_to_name"
                         style="@style/AppTheme.displayTextView"
-                        android:layout_width="wrap_content"
-                        android:text="days" />
+                        android:drawableStart="@drawable/ic_person"
+                        android:text="@{order.receiverName}"
+                        tools:text="Essam Mosbah" />
+
+                    <TextView
+                        android:id="@+id/tv_to_location"
+                        style="@style/AppTheme.displayTextView"
+                        android:drawableStart="@drawable/ic_location"
+                        android:text="@{order.packageAddress.toAddress.formatedAddress}"
+                        tools:text="Rehab Mall 2, Cairo Governorate, Egypt" />
+
+                    <TextView
+                        android:id="@+id/tv_to_number"
+                        style="@style/AppTheme.displayTextView"
+                        android:drawableStart="@drawable/ic_phone_"
+                        android:text="@{order.receiverPhoneNumber}"
+                        tools:text="01019965971" />
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <View
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardElevation="@dimen/cardView_elevation"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="0dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_note"
-                    style="@style/AppTheme.displayTextView"
-                    android:drawableStart="@drawable/ic_note"
-                    tools:text="I need you to be careful " />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorHeaderPendingPackage"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="Package"
+                        android:textColor="@color/white"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_weight"
+                            style="@style/AppTheme.displayTextView"
+                            android:layout_width="wrap_content"
+                            android:drawableStart="@drawable/ic_weight"
+                            android:text="@{Integer.toString(order.weight)}"
+                            tools:text="5" />
+
+                        <TextView
+                            style="@style/AppTheme.displayTextView"
+                            android:layout_width="wrap_content"
+                            android:text="Kg" />
+                    </LinearLayout>
 
 
-        </android.support.v7.widget.CardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/submit_order_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/button_background"
-            android:text="@string/submit"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+                        <TextView
+                            android:id="@+id/tv_duration"
+                            style="@style/AppTheme.displayTextView"
+                            android:layout_width="wrap_content"
+                            android:drawableStart="@drawable/ic_time"
+                            android:text="@{Integer.toString(order.duration)}"
+                            tools:text="5" />
 
-    </LinearLayout>
+                        <TextView
+                            style="@style/AppTheme.displayTextView"
+                            android:layout_width="wrap_content"
+                            android:text="days" />
+                    </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
 
-</ScrollView>
+                    <TextView
+                        android:id="@+id/tv_note"
+                        style="@style/AppTheme.displayTextView"
+                        android:drawableStart="@drawable/ic_note"
+                        android:text="@{order.note}"
+                        tools:text="I need you to be careful " />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/submit_order_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_background"
+                android:text="@string/submit"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

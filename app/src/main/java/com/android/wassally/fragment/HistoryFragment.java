@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements OrdersAdapter.ListItemClickListener{
 
 
     public HistoryFragment() {
@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.rv_orders);
-        OrdersAdapter adapter = new OrdersAdapter(getContext());
+        OrdersAdapter adapter = new OrdersAdapter(getContext(),HistoryFragment.this);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -60,4 +60,8 @@ public class HistoryFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onListItemClick(Order clickedOrder) {
+
+    }
 }

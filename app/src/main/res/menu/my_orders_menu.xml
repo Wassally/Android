@@ -2,13 +2,26 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".fragment.MyOrdersFragment"
-    >
+    tools:context=".fragment.MyOrdersFragment">
 
     <item
-        android:id="@+id/filter"
-        android:icon="@drawable/ic_filter"
-        android:title="Filter"
-        app:showAsAction="always|withText"
+        android:id="@+id/waiting"
+        android:title="waiting"
+        app:showAsAction="never"
+        tools:orderInCategory="1" />
+    <item
+        android:id="@+id/pending"
+        android:title="pending"
+        app:showAsAction="never"
+        tools:orderInCategory="1" />
+    <item
+        android:id="@+id/on_way"
+        android:title="on way"
+        app:showAsAction="never"
+        tools:orderInCategory="1" />
+    <item
+        android:id="@+id/all"
+        android:title="all"
+        app:showAsAction="never"
         tools:orderInCategory="1" />
 </menu>

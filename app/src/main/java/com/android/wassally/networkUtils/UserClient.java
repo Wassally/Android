@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface UserClient {
     @POST("accounts/")
@@ -29,7 +30,7 @@ public interface UserClient {
     Call<ComputeSalary> getExpectedSalary(@Body ComputeSalary computeSalary);
 
     @GET("packages/")
-    Call<List<Order>> getMyOrders(@Header("Authorization") String authToken);
+    Call<List<Order>> getMyOrders(@Header("Authorization") String authToken, @Query("delivery__state") String deliveryState);
 
     @GET("accounts/me/")
     Call<User> getUserInfo(@Header("Authorization") String authToken);
