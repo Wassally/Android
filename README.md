@@ -7,5 +7,5 @@ two kinds of users could use this app :
 * Captain : or delivery man who offers to deliver this package and get paid according to destination and some other variables
 
 ## screenShots 
-<img src="screenshots/screenshot.png">
+<img src="screenshots/Screenshot.png">
 
