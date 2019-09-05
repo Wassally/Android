@@ -140,11 +140,7 @@
                 android:text="select Address"
                 />
 
-
         </RelativeLayout>
-
-
-
 
     </LinearLayout>
 

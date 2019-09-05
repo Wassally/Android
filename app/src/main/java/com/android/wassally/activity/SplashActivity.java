@@ -13,8 +13,6 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
 
         /*Animation animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_logo_anim);
         animation.setInterpolator(new LinearInterpolator());
@@ -23,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         final ImageView splashLogo = findViewById(R.id.splash_logo);
         splashLogo.startAnimation(animation);*/
 
-
+        super.onCreate(savedInstanceState);
         int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -38,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
                     // transition from splash to main menu
                     overridePendingTransition(R.anim.splash_fade_out,
                             R.anim.login_fade_in);
-                }else {
+                } else {
                     Intent postSplashIntent = new Intent(SplashActivity.this, ClientHomeActivity.class);
                     startActivity(postSplashIntent);
                 }
